@@ -1,0 +1,177 @@
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+
+{
+
+  imports = [
+    inputs.dms-plugin-registry.modules.default
+  ];
+
+  services.displayManager.dms-greeter = {
+
+    enable = true;
+
+    compositor.name = "niri";
+
+    configHome = "/home/stybr";
+
+    logs = {
+      save = true;
+      path = "/tmp/dms-greeter.log";
+    };
+
+    #quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
+
+  };
+
+  programs.niri = {
+    enable = true;
+  };
+
+  programs.dms-shell = {
+
+    enable = true;
+
+    plugins = {
+      dankBatteryAlerts.enable = true;
+      dankPomodoroTimer.enable = true;
+      dankKDEConnect.enable = true;
+      dankStickerSearch.enable = true;
+      dankGifSearch.enable = true;
+    };
+
+    #quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
+
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
+    };
+
+    enableSystemMonitoring = true;
+    enableVPN = true;
+    enableDynamicTheming = true;
+    enableAudioWavelength = true;
+    enableCalendarEvents = true;
+
+  };
+
+  programs.dsearch = {
+    enable = true;
+    systemd.enable = true;
+  };
+
+  programs.kdeconnect = {
+    enable = true;
+  };
+
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+    user = "stybr";
+  };
+
+  services.navidrome = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      EnableSharing = true;
+      MusicFolder = "/home/stybr/Music/tidarr";
+      Address = "0.0.0.0";
+      Port = 4533;
+    };
+  };
+
+  systemd.services.navidrome.serviceConfig.ProtectHome = lib.mkForce false;
+
+  services.xserver.enable = true;
+
+  services.deluge = {
+    enable = true;
+    web.enable = true;
+    user = "stybr";
+    group = "users";
+    dataDir = "/home/stybr/.config/deluge";
+  };
+
+  services.cockpit = {
+    enable = true;
+    port = 9090;
+    openFirewall = true;
+    settings = {
+      webService = {
+        AllowUnencrypted = true;
+      };
+    };
+  };
+
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
+
+  services.upower = {
+    enable = true;
+  };
+
+  services.libinput.enable = true;
+
+  programs.firefox.enable = true;
+
+  environment.sessionVariables = {
+    GTK_IM_MODULE = "simple";
+  };
+
+  environment.systemPackages = with pkgs; [
+    (tree-sitter.withPlugins (_: tree-sitter.allGrammars))
+    filezilla
+    tela-icon-theme
+    papirus-icon-theme
+    adwaita-icon-theme
+    jellyfin
+    jellyfin-web
+    kid3
+    libsForQt5.qt5ct
+    kdePackages.qt6ct
+    kdePackages.kdenlive
+    kdePackages.dolphin
+    mediaelch
+    nemo
+    pcmanfm
+    geogebra6
+    qutebrowser
+    brave
+    libreoffice-fresh
+    faugus-launcher
+    thunderbird
+    tor-browser
+    docker
+    qt6.qtbase
+    qt6.qtdeclarative
+    qt6.qtwayland
+    chromium
+    gnucash
+    discord
+    vscode
+    blender
+    obs-studio
+    gimp
+    localsend
+    signal-desktop
+    emacs-pgtk
+    pulseaudio
+    imv
+    mpv
+    overskride
+    texliveFull
+    zathura
+    ghostty
+    cava
+    xwayland-satellite
+  ];
+
+}

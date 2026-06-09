@@ -1,0 +1,10 @@
+keys:
+  - &primary age19xkfsp5ykrjf860kvfp7880pe2d3kh888lglupq8pkm5pvupks4s6adar3
+  - &rlw-work age1d0ay07mf03t2l7x75ytap26mhvqheu3eld5hvaqtqfha0yu72fdq8a7d5w
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml
+    key_groups:
+      - age:
+          - *primary
+          - *rlw-work
