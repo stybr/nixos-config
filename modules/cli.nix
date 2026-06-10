@@ -50,6 +50,7 @@
     gcc
     gdb
     gemini-cli
+    gh
     git
     gnumake
     gnupg
