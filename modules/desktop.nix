@@ -69,25 +69,6 @@
     enable = true;
   };
 
-  services.jellyfin = {
-    enable = true;
-    openFirewall = true;
-    user = "stybr";
-  };
-
-  services.navidrome = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      EnableSharing = true;
-      MusicFolder = "/home/stybr/Music/tidarr";
-      Address = "0.0.0.0";
-      Port = 4533;
-    };
-  };
-
-  systemd.services.navidrome.serviceConfig.ProtectHome = lib.mkForce false;
-
   services.xserver.enable = true;
 
   services.deluge = {
@@ -132,14 +113,11 @@
     tela-icon-theme
     papirus-icon-theme
     adwaita-icon-theme
-    jellyfin
-    jellyfin-web
     kid3
     libsForQt5.qt5ct
     kdePackages.qt6ct
     kdePackages.kdenlive
     kdePackages.dolphin
-    mediaelch
     nemo
     pcmanfm
     geogebra6

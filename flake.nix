@@ -68,6 +68,7 @@
           modules = [
             ./modules/intel.nix
             ./modules/android.nix
+            ./modules/media.nix
             ./modules/desktop.nix
             ./modules/virtualisation.nix
             ./modules/printing.nix
