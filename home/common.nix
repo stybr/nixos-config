@@ -8,6 +8,8 @@
 {
   imports = [
     inputs.zen-browser.homeModules.twilight
+    inputs.dms.homeModules.dank-material-shell
+    inputs.dms-plugin-registry.nixosModules.default
   ];
 
   xdg.mimeApps = {
@@ -15,6 +17,77 @@
     defaultApplications = {
       "application/pdf" = "org.pwmt.zathura.desktop";
     };
+  };
+
+  programs.dank-material-shell = {
+
+    enable = true;
+
+    settings = {
+      currentThemeName = "dynamic";
+      currentThemeCategory = "dynamic";
+      matugenScheme = "scheme-tonal-spot";
+      blurWallpaperOnOverview = true;
+      wallpaperFillMode = "Fill";
+      barConfigs = [
+        {
+          id = "default";
+          name = "Main Bar";
+          enabled = true;
+          position = 3;
+          widgetPadding = 8;
+          leftWidgets = [
+            "launcherButton"
+            "workspaceSwitcher"
+            "focusedWindow"
+          ];
+          centerWidgets = [
+            "music"
+            "clock"
+            "weather"
+            "keyboard_layout_name"
+          ];
+          rightWidgets = [
+            "systemTray"
+            "clipboard"
+            "cpuUsage"
+            "memUsage"
+            "notificationButton"
+            "battery"
+            "controlCenterButton"
+          ];
+        }
+      ];
+    };
+
+    session = {
+      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/future-1.webp";
+      weatherLocation = "Pilsen, CZ";
+      weatherCoordinates = "49.7475,13.3776";
+    };
+
+    plugins = {
+      dankBatteryAlerts.enable = true;
+      dankPomodoroTimer.enable = true;
+      dankKDEConnect.enable = true;
+      dankStickerSearch.enable = true;
+      dankGifSearch.enable = true;
+    };
+
+    #quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
+    quickshell.package = pkgs.quickshell;
+
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
+    };
+
+    enableSystemMonitoring = true;
+    enableVPN = true;
+    enableDynamicTheming = true;
+    enableAudioWavelength = true;
+    enableCalendarEvents = true;
+
   };
 
   programs.zen-browser = {
