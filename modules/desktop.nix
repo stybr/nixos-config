@@ -125,6 +125,7 @@
     brave
     libreoffice-fresh
     faugus-launcher
+    upscayl
     thunderbird
     tor-browser
     docker

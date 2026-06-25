@@ -36,11 +36,33 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    clan-core = {
+      url = "https://git.clan.lol/clan/clan-core/archive/25.11.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
-    { nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      clan-core,
+      ...
+    }@inputs:
     let
+      common = [
+        inputs.sops-nix.nixosModules.sops
+        inputs.home-manager.nixosModules.home-manager
+        inputs.disko.nixosModules.disko
+        ./modules
+      ];
+
+      clan = clan-core.lib.clan {
+        self = self;
+        specialArgs = { inherit inputs; };
+      };
+
       mkHost =
         {
           hostname,
@@ -105,6 +127,11 @@
         };
 
       };
+
+      devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
+        packages = [ clan-core.packages.x86_64-linux.clan-cli ];
+      };
+
     };
 
 }

@@ -7,6 +7,8 @@
     owner = "syncthing";
   };
 
+  programs.direnv.enable = true;
+
   services.udisks2.enable = true;
 
   services.fwupd.enable = true;
@@ -75,6 +77,7 @@
     p7zip
     pkg-config
     pnpm
+    poppler-utils
     prettier
     psmisc
     pulsemixer
@@ -96,6 +99,7 @@
     tor
     trashy
     tree-sitter
+    typst
     unrar
     unzip
     usbutils

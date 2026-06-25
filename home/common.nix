@@ -6,7 +6,17 @@
 }:
 
 {
-  imports = [ inputs.zen-browser.homeModules.twilight ];
+  imports = [
+    inputs.zen-browser.homeModules.twilight
+  ];
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "application/pdf" = "org.pwmt.zathura.desktop";
+    };
+  };
+
   programs.zen-browser = {
     enable = true;
     setAsDefaultBrowser = true;

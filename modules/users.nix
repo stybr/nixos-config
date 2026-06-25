@@ -22,6 +22,7 @@
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
+    backupFileExtension = "hm-bak";
     users = {
       "stybr" = import ../home/common.nix;
     };
