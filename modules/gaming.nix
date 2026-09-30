@@ -10,6 +10,8 @@
     mangohud
     umu-launcher
     wine-staging
+    prismlauncher
+    dosbox-x
   ];
 
 }

@@ -38,7 +38,7 @@
             "802-1x" = {
               identity = "$EDUROAM_IDENTITY";
               anonymous-identity = "anonymous@zcu.cz";
-              ca-cert = "../nixos/certs/isrgrootx1.der";
+              ca-cert = "/etc/ssl/certs/ca-certificates.crt";
               eap = "peap";
               phase2-auth = "mschapv2";
               password = "$EDUROAM_PASSWORD";

@@ -41,6 +41,7 @@
     cpufetch
     dmidecode
     dnsmasq
+    dnsutils
     exfatprogs
     exiftool
     fastfetch
@@ -51,13 +52,14 @@
     gallery-dl
     gcc
     gdb
-    gemini-cli
     gh
     git
     gnumake
+    jq
     gnupg
     inxi
     just
+    jdk25
     libinput
     libisoburn
     libtool

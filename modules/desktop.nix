@@ -40,12 +40,26 @@
 
   services.xserver.enable = true;
 
-  services.deluge = {
+  # services.deluge = {
+  #   enable = true;
+  #   web.enable = true;
+  #   user = "stybr";
+  #   group = "users";
+  #   dataDir = "/home/stybr/.config/deluge";
+  # };
+
+  services.qbittorrent = {
     enable = true;
-    web.enable = true;
+    openFirewall = true;
+    webuiPort = 8080;
     user = "stybr";
     group = "users";
-    dataDir = "/home/stybr/.config/deluge";
+    serverConfig.Preferences.WebUI = {
+      Username = "stybr";
+      Password_PBKDF2 = "@ByteArray(+NugvAYvceXWRW+iYNTN5A==:OtOJCM6ZCxhABCPlxe0gDrlO+H0eCsJ7YTQHs78AAWbZWGJYkSrzhv6ZcFbY5fhsid6iacLNLbVsRm55kJWjmA==)";
+      AlternativeUIEnabled = true;
+      RootFolder = "${pkgs.vuetorrent}/share/vuetorrent";
+    };
   };
 
   services.cockpit = {
@@ -70,6 +84,8 @@
 
   services.libinput.enable = true;
 
+  services.gvfs.enable = true;
+
   programs.firefox.enable = true;
 
   environment.sessionVariables = {
@@ -87,12 +103,15 @@
     kdePackages.qt6ct
     kdePackages.kdenlive
     kdePackages.dolphin
+    kdePackages.kio-fuse
+    kdePackages.kio-extras
     nemo
     pcmanfm
     geogebra6
     qutebrowser
     brave
-    libreoffice-fresh
+    brave-origin
+    libreoffice
     faugus-launcher
     upscayl
     thunderbird

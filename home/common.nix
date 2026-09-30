@@ -37,12 +37,14 @@
           position = 3;
           widgetPadding = 8;
           leftWidgets = [
-            "launcherButton"
+            # "launcherButton"
+            "dankPomodoroTimer"
             "workspaceSwitcher"
             "focusedWindow"
           ];
           centerWidgets = [
-            "music"
+            "dankKDEConnect"
+            # "music"
             "clock"
             "weather"
             "keyboard_layout_name"
@@ -67,7 +69,6 @@
     };
 
     plugins = {
-      dankBatteryAlerts.enable = true;
       dankPomodoroTimer.enable = true;
       dankKDEConnect.enable = true;
       dankStickerSearch.enable = true;
@@ -166,7 +167,7 @@
       gc = "git clone";
       z = "zathura --mode=fullscreen";
       se = "sudoedit";
-      ec = "emacsclient -c";
+      ec = "emacsclient -cn";
       sec = "sudoedit /etc/nixos/modules/common.nix";
       seh = "sudoedit /etc/nixos/home/common.nix";
       sef = "sudoedit /etc/nixos/flake.nix";
