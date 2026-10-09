@@ -109,8 +109,12 @@
   home.homeDirectory = "/home/stybr";
   home.stateVersion = "25.05";
 
+  services.ssh-agent.enable = true;
+
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
+    settings."*".AddKeysToAgent = "yes";
   };
 
   services.udiskie = {
