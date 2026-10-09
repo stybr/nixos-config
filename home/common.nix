@@ -10,6 +10,7 @@
     inputs.zen-browser.homeModules.twilight
     inputs.dms.homeModules.dank-material-shell
     inputs.dms-plugin-registry.nixosModules.default
+    inputs.dcal.homeModules.default
   ];
 
   xdg.mimeApps = {
@@ -29,6 +30,7 @@
       matugenScheme = "scheme-tonal-spot";
       blurWallpaperOnOverview = true;
       wallpaperFillMode = "Fill";
+      frameEnabled = true;
       barConfigs = [
         {
           id = "default";
@@ -89,6 +91,13 @@
     enableAudioWavelength = true;
     enableCalendarEvents = true;
 
+  };
+
+  programs.dank-calendar = {
+    enable = true;
+    systemd = {
+      enable = true;
+    };
   };
 
   programs.zen-browser = {
@@ -154,6 +163,7 @@
       fish_vi_key_bindings
     '';
     shellAbbrs = {
+      kcs = "kdeconnect-cli -n rlw-phone --share";
       low = "libreoffice --writer";
       loc = "libreoffice --calc";
       loi = "libreoffice --impress";
