@@ -49,6 +49,7 @@
     ffmpeg
     file
     flac
+    fuse-overlayfs
     gallery-dl
     gcc
     gdb
@@ -83,6 +84,7 @@
     prettier
     psmisc
     pulsemixer
+    pyglossary
     python3
     python3Packages.matplotlib
     python3Packages.mutagen
