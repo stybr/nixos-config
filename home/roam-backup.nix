@@ -17,7 +17,8 @@ let
     text = ''
       git add -A
       if ! git diff --cached --quiet; then
-        git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
+        # git commit -m "Auto backup $(date '+%Y-%m-%d %H:%M')"
+        git commit -m "Auto backup $(date '+%Y-%m-%d %-I:%M %p')"
       fi
       git push
     '';
