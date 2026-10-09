@@ -36,13 +36,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    dcal = {
+      url = "github:AvengeMedia/dankcalendar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     clan-core = {
-      url = "https://git.clan.lol/clan/clan-core/archive/25.11.tar.gz";
+      url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -56,87 +61,89 @@
       ...
     }@inputs:
     let
+
+      # mkHost =
+      #   {
+      #     hostname,
+      #     system ? "x86_64-linux",
+      #     modules,
+      #   }:
+      #   nixpkgs.lib.nixosSystem {
+      #     inherit system;
+      #     specialArgs = { inherit inputs; };
+      #     modules = [
+      #       inputs.sops-nix.nixosModules.sops
+      #       inputs.home-manager.nixosModules.home-manager
+      #       inputs.disko.nixosModules.disko
+      #       ./modules
+      #       ./hosts/${hostname}
+      #     ]
+      #     ++ modules;
+      #   };
+
       common = [
-        inputs.sops-nix.nixosModules.sops
+        # inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager
-        inputs.disko.nixosModules.disko
+        # inputs.disko.nixosModules.disko
         ./modules
       ];
 
       clan = clan-core.lib.clan {
-        self = self;
+        inherit self;
         specialArgs = { inherit inputs; };
+        meta.name = "rlwos";
+
+        machines = {
+
+          rlw-work = {
+            nixpkgs.hostPlatform = "x86_64-linux";
+            imports = common ++ [
+              ./hosts/rlw-work
+              ./modules/intel.nix
+              ./modules/android.nix
+              ./modules/media.nix
+              ./modules/desktop.nix
+              ./modules/virtualisation.nix
+              ./modules/printing.nix
+              ./modules/kodi.nix
+              ./modules/steam.nix
+              ./modules/gaming.nix
+              ./modules/retroarch.nix
+              ./modules/php-legacy.nix
+            ];
+          };
+
+          rlw-center = {
+            nixpkgs.hostPlatform = "x86_64-linux";
+            imports = common ++ [
+              ./hosts/rlw-center
+              ./modules/amd.nix
+              ./modules/desktop.nix
+              ./modules/kodi.nix
+              ./modules/steam.nix
+              ./modules/gaming.nix
+              ./modules/retroarch.nix
+            ];
+          };
+
+          rlw-nuc = {
+            nixpkgs.hostPlatform = "x86_64-linux";
+            imports = common ++ [
+              ./hosts/rlw-nuc
+              ./modules/intel.nix
+            ];
+          };
+
+        };
       };
 
-      mkHost =
-        {
-          hostname,
-          system ? "x86_64-linux",
-          modules,
-        }:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs; };
-          modules = [
-            inputs.sops-nix.nixosModules.sops
-            inputs.home-manager.nixosModules.home-manager
-            inputs.disko.nixosModules.disko
-            ./modules
-            ./hosts/${hostname}
-          ]
-          ++ modules;
-        };
     in
     {
-      nixosConfigurations = {
-
-        rlw-work = mkHost {
-          hostname = "rlw-work";
-          modules = [
-            ./modules/intel.nix
-            ./modules/android.nix
-            ./modules/media.nix
-            ./modules/desktop.nix
-            ./modules/virtualisation.nix
-            ./modules/printing.nix
-            ./modules/kodi.nix
-            ./modules/steam.nix
-            ./modules/gaming.nix
-            ./modules/retroarch.nix
-            ./modules/php-legacy.nix
-          ];
-        };
-
-        rlw-center = mkHost {
-          hostname = "rlw-center";
-          modules = [
-            ./modules/amd.nix
-            ./modules/desktop.nix
-            ./modules/kodi.nix
-            ./modules/steam.nix
-            ./modules/gaming.nix
-            ./modules/retroarch.nix
-          ];
-        };
-
-        rlw-nuc = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [
-            inputs.sops-nix.nixosModules.sops
-            inputs.home-manager.nixosModules.home-manager
-            ./hosts/rlw-nuc
-            ./modules
-            ./modules/intel.nix
-          ];
-        };
-
-      };
+      inherit (clan.config) nixosConfigurations nixosModules clanInternals;
+      clan = clan.config;
 
       devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
         packages = [ clan-core.packages.x86_64-linux.clan-cli ];
       };
-
     };
-
 }
