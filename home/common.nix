@@ -114,7 +114,13 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    settings."*".AddKeysToAgent = "yes";
+    settings = {
+      "*".AddKeysToAgent = "yes";
+      "github.com" = {
+        IdentityFile = "~/.ssh/id_ed25519";
+        IdentitiesOnly = "yes";
+      };
+    };
   };
 
   services.udiskie = {

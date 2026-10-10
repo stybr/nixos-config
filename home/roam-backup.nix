@@ -31,7 +31,7 @@ in
       Type = "oneshot";
       WorkingDirectory = roamDir;
       ExecStart = lib.getExe roamBackup;
-      Environment = ''GIT_SSH_COMMAND="ssh -i ${config.home.homeDirectory}/.ssh/roam_deploy -o IdentitiesOnly=yes"'';
+      Environment = ''GIT_SSH_COMMAND="ssh -i ${config.home.homeDirectory}/.ssh/roam_deploy -o IdentitiesOnly=yes -o IdentityAgent=none"'';
     };
   };
 
