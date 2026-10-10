@@ -40,6 +40,13 @@
         type = "sendonly";
       };
 
+      folders.epub = {
+        path = "~/Documents/epub";
+        id = "epub";
+        devices = [ "graphene" ];
+        type = "sendonly";
+      };
+
     };
 
   };
