@@ -101,6 +101,7 @@
               ./hosts/rlw-work
               ./modules/intel.nix
               ./modules/sync.nix
+              ./modules/torrent.nix
               ./modules/android.nix
               ./modules/media.nix
               ./modules/desktop.nix

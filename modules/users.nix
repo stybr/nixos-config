@@ -21,6 +21,7 @@
   };
 
   home-manager = {
+    useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs; };
     backupFileExtension = "hm-bak";
     users = {

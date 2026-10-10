@@ -1,109 +1,12 @@
 {
   config,
   pkgs,
-  inputs,
   ...
 }:
 
 {
   imports = [
-    inputs.zen-browser.homeModules.twilight
-    inputs.dms.homeModules.dank-material-shell
-    inputs.dms-plugin-registry.nixosModules.default
-    inputs.dcal.homeModules.default
   ];
-
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "application/pdf" = "org.pwmt.zathura.desktop";
-    };
-  };
-
-  programs.dank-material-shell = {
-
-    enable = true;
-
-    settings = {
-      currentThemeName = "dynamic";
-      currentThemeCategory = "dynamic";
-      matugenScheme = "scheme-tonal-spot";
-      blurWallpaperOnOverview = true;
-      wallpaperFillMode = "Fill";
-      frameEnabled = true;
-      barConfigs = [
-        {
-          id = "default";
-          name = "Main Bar";
-          enabled = true;
-          position = 3;
-          widgetPadding = 8;
-          leftWidgets = [
-            # "launcherButton"
-            "dankPomodoroTimer"
-            "workspaceSwitcher"
-            "focusedWindow"
-          ];
-          centerWidgets = [
-            "dankKDEConnect"
-            # "music"
-            "clock"
-            "weather"
-            "keyboard_layout_name"
-          ];
-          rightWidgets = [
-            "systemTray"
-            "clipboard"
-            "cpuUsage"
-            "memUsage"
-            "notificationButton"
-            "battery"
-            "controlCenterButton"
-          ];
-        }
-      ];
-    };
-
-    session = {
-      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/future-1.webp";
-      weatherLocation = "Pilsen, CZ";
-      weatherCoordinates = "49.7475,13.3776";
-    };
-
-    plugins = {
-      dankPomodoroTimer.enable = true;
-      dankKDEConnect.enable = true;
-      dankStickerSearch.enable = true;
-      dankGifSearch.enable = true;
-    };
-
-    #quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
-    quickshell.package = pkgs.quickshell;
-
-    systemd = {
-      enable = true;
-      restartIfChanged = true;
-    };
-
-    enableSystemMonitoring = true;
-    enableVPN = true;
-    enableDynamicTheming = true;
-    enableAudioWavelength = true;
-    enableCalendarEvents = true;
-
-  };
-
-  programs.dank-calendar = {
-    enable = true;
-    systemd = {
-      enable = true;
-    };
-  };
-
-  programs.zen-browser = {
-    enable = true;
-    setAsDefaultBrowser = true;
-  };
 
   home.username = "stybr";
   home.homeDirectory = "/home/stybr";
