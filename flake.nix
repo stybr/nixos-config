@@ -100,6 +100,7 @@
             imports = common ++ [
               ./hosts/rlw-work
               ./modules/intel.nix
+              ./modules/sync.nix
               ./modules/android.nix
               ./modules/media.nix
               ./modules/desktop.nix

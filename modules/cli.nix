@@ -2,11 +2,6 @@
 
 {
 
-  sops.secrets."syncthing-password" = {
-    sopsFile = ../secrets/services.yaml;
-    owner = "syncthing";
-  };
-
   programs.direnv.enable = true;
 
   services.udisks2.enable = true;
@@ -18,13 +13,6 @@
   programs.gnupg.agent = {
     enable = true;
     # enableSSHSupport = true;
-  };
-
-  services.syncthing = {
-    enable = true;
-    openDefaultPorts = true;
-    guiPasswordFile = config.sops.secrets."syncthing-password".path;
-    settings.gui.user = "stybr";
   };
 
   programs.fish.enable = true;
