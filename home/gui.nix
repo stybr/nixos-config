@@ -133,6 +133,10 @@
 
   home.packages = with pkgs; [
     (tree-sitter.withPlugins (_: tree-sitter.allGrammars))
+    (hunspell.withDicts (d: [
+      d.en_US
+      d.cs_CZ
+    ]))
     papirus-icon-theme
     thunderbird
     texliveFull
