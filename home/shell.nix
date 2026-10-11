@@ -21,13 +21,14 @@
       ydav = "yt-dlp -f b --embed-metadata --embed-thumbnail --embed-chapters -x --download-archive .archive-file";
       nrs = "sudo nixos-rebuild switch --flake /home/stybr/nixos-config";
       nfu = "sudo nix flake update --flake /home/stybr/nixos-config";
-      g = "git";
-      s = "sudo";
       gc = "git clone";
+      gd = "git diff";
+      gaa = "git add -A";
+      gcm = "git commit -m";
       z = "zathura --mode=fullscreen";
       se = "sudoedit";
       ec = "emacsclient -cn";
-      sss = "sudo systemctl start";
+      sst = "sudo systemctl start";
       sse = "sudo systemctl enable --now";
       ssd = "sudo systemctl disable";
       ssr = "sudo systemctl restart";
@@ -40,8 +41,14 @@
       sure = "systemctl --user restart emacs";
       tp = "trash put";
       te = "trash empty";
+      tea = "trash empty --all";
       cx = "chmod a+x";
       pk = "k";
+      juu = "journalctl --user -u";
+      jut = "journalctl --user -t";
+      ju = "journalctl -u";
+      cdd = "cd ~/.config/doom";
+      cdn = "cd ~/nixos-config";
     };
 
   };
