@@ -120,7 +120,10 @@
     package = pkgs.emacs-pgtk;
   };
 
-  services.emacs.enable = true;
+  services.emacs = {
+    enable = true;
+    startWithUserSession = "graphical";
+  };
 
   programs.ghostty.enable = true;
   programs.cava.enable = true;
