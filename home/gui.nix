@@ -120,6 +120,8 @@
     package = pkgs.emacs-pgtk;
   };
 
+  services.emacs.enable = true;
+
   programs.ghostty.enable = true;
   programs.cava.enable = true;
   programs.mpv.enable = true;
