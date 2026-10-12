@@ -6,8 +6,14 @@
 }:
 
 {
-  sops.secrets."wifi" = {
-    sopsFile = ../secrets/wifi.yaml;
+
+  clan.core.vars.generators.wifi = {
+    share = true;
+    prompts.env = {
+      description = "Wifi env file";
+      type = "multiline";
+      persist = true;
+    };
   };
 
   networking = {
@@ -18,7 +24,7 @@
 
       ensureProfiles = {
 
-        environmentFiles = [ config.sops.secrets."wifi".path ];
+        environmentFiles = [ config.clan.core.vars.generators.wifi.files.env.path ];
 
         profiles = {
 
