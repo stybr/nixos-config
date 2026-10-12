@@ -10,6 +10,15 @@
     owner = "stybr";
   };
 
+  clan.core.vars.generators.syncthing = {
+    prompts.password = {
+      description = "Syncthing GUI password";
+      type = "hidden";
+      persist = true;
+    };
+    files.password.owner = "stybr";
+  };
+
   services.syncthing = {
 
     enable = true;
