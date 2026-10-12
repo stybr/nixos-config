@@ -20,6 +20,13 @@
     ];
   };
 
+  users.users.root = {
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0LkhPdYXtN16+2ZZGLEjomNCHc5UbmokZISc5Qo2r9 stybr@rlw-work"
+    ];
+
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs; };
