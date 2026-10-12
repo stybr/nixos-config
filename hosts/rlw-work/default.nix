@@ -6,6 +6,8 @@
   # systemd unit for automatically backup roam database to git repo
   home-manager.users.stybr.imports = [ ../../home/roam-backup.nix ];
 
+  clan.core.networking.targetHost = "root@localhost";
+
   # ssh key for roam.git repo
   sops.secrets.roam_deploy = {
     sopsFile = ../../secrets/roam.yaml;
