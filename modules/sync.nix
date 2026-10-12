@@ -5,11 +5,6 @@
 
 {
 
-  sops.secrets."syncthing-password" = {
-    sopsFile = ../secrets/services.yaml;
-    owner = "stybr";
-  };
-
   clan.core.vars.generators.syncthing = {
     prompts.password = {
       description = "Syncthing GUI password";
@@ -25,7 +20,7 @@
     user = "stybr";
     dataDir = "/home/stybr";
     openDefaultPorts = true;
-    guiPasswordFile = config.sops.secrets."syncthing-password".path;
+    guiPasswordFile = config.clan.core.vars.generators.syncthing.files.password.path;
 
     settings = {
 
