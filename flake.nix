@@ -115,26 +115,26 @@
             ];
           };
 
-          rlw-center = {
-            nixpkgs.hostPlatform = "x86_64-linux";
-            imports = common ++ [
-              ./hosts/rlw-center
-              ./modules/amd.nix
-              ./modules/desktop.nix
-              ./modules/kodi.nix
-              ./modules/steam.nix
-              ./modules/gaming.nix
-              ./modules/retroarch.nix
-            ];
-          };
+          # rlw-center = {
+          #   nixpkgs.hostPlatform = "x86_64-linux";
+          #   imports = common ++ [
+          #     ./hosts/rlw-center
+          #     ./modules/amd.nix
+          #     ./modules/desktop.nix
+          #     ./modules/kodi.nix
+          #     ./modules/steam.nix
+          #     ./modules/gaming.nix
+          #     ./modules/retroarch.nix
+          #   ];
+          # };
 
-          rlw-nuc = {
-            nixpkgs.hostPlatform = "x86_64-linux";
-            imports = common ++ [
-              ./hosts/rlw-nuc
-              ./modules/intel.nix
-            ];
-          };
+          # rlw-nuc = {
+          #   nixpkgs.hostPlatform = "x86_64-linux";
+          #   imports = common ++ [
+          #     ./hosts/rlw-nuc
+          #     ./modules/intel.nix
+          #   ];
+          # };
 
         };
       };
