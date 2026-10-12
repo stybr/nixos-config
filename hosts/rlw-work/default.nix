@@ -1,4 +1,5 @@
-{ ... }: {
+{ config, ... }: {
+
   imports = [ ./hardware-configuration.nix ];
   networking.hostName = "rlw-work";
   system.stateVersion = "25.05";
@@ -8,20 +9,29 @@
 
   clan.core.networking.targetHost = "root@localhost";
 
-  # ssh key for roam.git repo
-  sops.secrets.roam_deploy = {
-    sopsFile = ../../secrets/roam.yaml;
-    owner = "stybr";
-    mode = "0400";
-    path = "/home/stybr/.ssh/roam_deploy";
+  # main ssh key for GitHub and other
+  clan.core.vars.generators.ssh-main = {
+    prompts.id_ed25519 = {
+      description = "Main SSH key for GitHub and other";
+      type = "multiline";
+      persist = true;
+    };
+    files.id_ed25519.owner = "stybr";
   };
 
-  # main ssh key for github and other
-  sops.secrets.id_ed25519 = {
-    sopsFile = ../../secrets/ssh.yaml;
-    owner = "stybr";
-    mode = "0400";
-    path = "/home/stybr/.ssh/id_ed25519";
+  # ssh key for roam.git repo
+  clan.core.vars.generators.ssh-roam = {
+    prompts.roam_deploy = {
+      description = "SSH deploy key for roam.git";
+      type = "multiline";
+      persist = true;
+    };
+    files.roam_deploy.owner = "stybr";
   };
+
+  systemd.tmpfiles.rules = [
+    "L+ /home/stybr/.ssh/id_ed25519 - - - - ${config.clan.core.vars.generators.ssh-main.files.id_ed25519.path}"
+    "L+ /home/stybr/.ssh/roam_deploy - - - - ${config.clan.core.vars.generators.ssh-roam.files.roam_deploy.path}"
+  ];
 
 }
