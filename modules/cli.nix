@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 
 {
 
@@ -18,6 +23,7 @@
   programs.fish.enable = true;
 
   environment.systemPackages = with pkgs; [
+    inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.clan-cli
     age
     alsa-utils
     btop
@@ -105,5 +111,9 @@
     zellij
     zsh
   ];
+
+  environment.sessionVariables = {
+    CLAN_DIR = "/home/stybr/nixos-config/";
+  };
 
 }
