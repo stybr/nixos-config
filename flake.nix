@@ -6,18 +6,8 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -41,11 +31,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     clan-core = {
       url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -62,9 +47,7 @@
     }@inputs:
     let
       common = [
-        # inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager
-        # inputs.disko.nixosModules.disko
         ./modules
       ];
 
