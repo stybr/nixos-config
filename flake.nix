@@ -61,26 +61,6 @@
       ...
     }@inputs:
     let
-
-      # mkHost =
-      #   {
-      #     hostname,
-      #     system ? "x86_64-linux",
-      #     modules,
-      #   }:
-      #   nixpkgs.lib.nixosSystem {
-      #     inherit system;
-      #     specialArgs = { inherit inputs; };
-      #     modules = [
-      #       inputs.sops-nix.nixosModules.sops
-      #       inputs.home-manager.nixosModules.home-manager
-      #       inputs.disko.nixosModules.disko
-      #       ./modules
-      #       ./hosts/${hostname}
-      #     ]
-      #     ++ modules;
-      #   };
-
       common = [
         # inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager
@@ -92,6 +72,16 @@
         inherit self;
         specialArgs = { inherit inputs; };
         meta.name = "rlwos";
+
+        inventory.instances = {
+          sshd = {
+            roles.server.tags.all = { };
+            roles.server.settings = {
+              certificate.enable = false;
+              authorizedKeys.stybr = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0LkhPdYXtN16+2ZZGLEjomNCHc5UbmokZISc5Qo2r9 stybr@rlw-work";
+            };
+          };
+        };
 
         machines = {
 
