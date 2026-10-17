@@ -90,7 +90,6 @@
               ./modules/sync.nix
               ./modules/torrent.nix
               ./modules/android.nix
-              ./modules/media.nix
               ./modules/desktop.nix
               ./modules/virtualisation.nix
               ./modules/printing.nix
@@ -120,6 +119,7 @@
             imports = common ++ [
               ./hosts/rlw-nuc
               ./modules/intel.nix
+              ./modules/media.nix
             ];
           };
 
