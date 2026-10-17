@@ -85,7 +85,6 @@
           rlw-work = {
             nixpkgs.hostPlatform = "x86_64-linux";
             imports = common ++ [
-              ./hosts/rlw-work
               ./modules/intel.nix
               ./modules/sync.nix
               ./modules/torrent.nix
@@ -104,7 +103,6 @@
           # rlw-center = {
           #   nixpkgs.hostPlatform = "x86_64-linux";
           #   imports = common ++ [
-          #     ./hosts/rlw-center
           #     ./modules/amd.nix
           #     ./modules/desktop.nix
           #     ./modules/kodi.nix
