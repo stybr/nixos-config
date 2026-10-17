@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./disko-config.nix
     ./data-disk.nix
   ];
 
