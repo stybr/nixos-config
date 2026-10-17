@@ -24,4 +24,8 @@
     ];
   };
 
+  systemd.tmpfiles.rules = [
+    "d /data/music 2770 root media - -"
+  ];
+
 }
