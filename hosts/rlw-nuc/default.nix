@@ -1,7 +1,10 @@
 { ... }:
 
 {
-  imports = [ ./disko-config.nix ];
+  imports = [
+    ./disko-config.nix
+    ./data-disk.nix
+  ];
 
   networking.hostName = "rlw-nuc";
 
