@@ -57,6 +57,7 @@
         meta.name = "rlwos";
 
         inventory.instances = {
+
           sshd = {
             roles.server.tags.all = { };
             roles.server.settings = {
@@ -64,6 +65,19 @@
               authorizedKeys.stybr = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0LkhPdYXtN16+2ZZGLEjomNCHc5UbmokZISc5Qo2r9 stybr@rlw-work";
             };
           };
+
+          user-stybr = {
+            module = {
+              name = "users";
+              input = "clan-core";
+            };
+            roles.default.machines.rlw-nuc = { };
+            roles.default.settings = {
+              user = "stybr";
+              prompt = true;
+            };
+          };
+
         };
 
         machines = {
@@ -101,13 +115,13 @@
           #   ];
           # };
 
-          # rlw-nuc = {
-          #   nixpkgs.hostPlatform = "x86_64-linux";
-          #   imports = common ++ [
-          #     ./hosts/rlw-nuc
-          #     ./modules/intel.nix
-          #   ];
-          # };
+          rlw-nuc = {
+            nixpkgs.hostPlatform = "x86_64-linux";
+            imports = common ++ [
+              ./hosts/rlw-nuc
+              ./modules/intel.nix
+            ];
+          };
 
         };
       };
