@@ -16,7 +16,7 @@
 ## Layout
 
 - `flake.nix` — inputs, machines and Clan inventory (services like `sshd`)
-- `hosts/<machine>/` — machine-specific config (hardware, disko, host-only secret definitions...)
+- `machines/<machine>/` — machine-specific config (hardware, disko, host-only secret definitions...)
 - `modules/` — shared NixOS modules, imported per machine in `flake.nix`
 - `home/` — home-manager config for `stybr`
 - `sops/` — Clan secret admins (users) and machine age keys
