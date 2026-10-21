@@ -12,6 +12,7 @@
     inputs.dms.homeModules.dank-material-shell
     inputs.dms-plugin-registry.homeModules.default
     inputs.dcal.homeModules.default
+    inputs.dfiles.homeModules.default
   ];
 
   xdg.mimeApps = {
@@ -90,14 +91,29 @@
     enableVPN = true;
     enableDynamicTheming = true;
     enableAudioWavelength = true;
-    enableCalendarEvents = true;
-
+    enableCalendarEvents = false;
   };
 
   programs.dank-calendar = {
     enable = true;
     systemd = {
       enable = true;
+    };
+  };
+
+  programs.dux-files = {
+    enable = true;
+
+    systemd = {
+      enable = true;
+      target = "graphical-session.target";
+      restartIfChanged = true;
+    };
+
+    portal = {
+      enable = true; # register the dfiles backend with xdg-desktop-portal
+      preferred = true; # prefer it for org.freedesktop.impl.portal.FileChooser
+      desktop = "niri"; # which xdg.portal.config entry gets the preference, "common" by default
     };
   };
 
