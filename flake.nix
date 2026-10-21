@@ -17,17 +17,17 @@
     };
 
     dms = {
-      url = "github:duxlab-dev/dux-shell/stable";
+      url = "github:duxlabs-dev/dux-shell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     dms-plugin-registry = {
-      url = "github:duxlab-dev/dux-plugin-registry";
+      url = "github:duxlabs-dev/dux-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     dcal = {
-      url = "github:duxlab-dev/dux-calendar";
+      url = "github:duxlabs-dev/dux-calendar";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
