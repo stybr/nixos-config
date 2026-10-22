@@ -32,13 +32,16 @@
       matugenScheme = "scheme-tonal-spot";
       blurWallpaperOnOverview = true;
       wallpaperFillMode = "Fill";
-      frameEnabled = true;
+      # frameEnabled = true;
+      #
       barConfigs = [
         {
           id = "default";
           name = "Main Bar";
           enabled = true;
-          position = 3;
+          island = true;
+          islandNotch = true;
+          position = 0;
           widgetPadding = 8;
           leftWidgets = [
             # "launcherButton"
@@ -64,12 +67,31 @@
           ];
         }
       ];
+
+      dockConfigs = [
+        {
+          id = "dock";
+          name = "Dock";
+          enabled = true;
+          position = 1;
+          autoHide = true;
+          launcherLogoMode = "apps";
+          showTrash = true;
+        }
+      ];
     };
 
     session = {
-      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/future-1.webp";
+      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/Future-2016-Lollapalooza-James_Richards_IV-2.jpg";
       weatherLocation = "Pilsen, CZ";
       weatherCoordinates = "49.7475,13.3776";
+      dockPins = {
+        dock = [
+          "zen-twilight"
+          "dev.duxlabs.files"
+          "heroic"
+        ];
+      };
     };
 
     plugins = {
