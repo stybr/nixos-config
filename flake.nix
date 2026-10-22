@@ -98,7 +98,6 @@
               ./modules/virtualisation.nix
               ./modules/printing.nix
               ./modules/kodi.nix
-              ./modules/steam.nix
               ./modules/gaming.nix
               ./modules/retroarch.nix
               ./modules/php-legacy.nix

@@ -186,9 +186,6 @@
     filezilla
     kid3
     kdePackages.kdenlive
-    nemo
-    pcmanfm
-    geogebra6
     faugus-launcher
     upscayl
     tor-browser

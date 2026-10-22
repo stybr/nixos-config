@@ -72,9 +72,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    kdePackages.dolphin
-    kdePackages.kio-fuse
-    kdePackages.kio-extras
     pulseaudio
     xwayland-satellite
   ];
