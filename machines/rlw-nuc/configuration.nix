@@ -16,4 +16,6 @@
     openFirewall = true;
   };
 
+  services.openssh.settings.KbdInteractiveAuthentication = false;
+
 }
