@@ -6,5 +6,5 @@
     host = "0.0.0.0";
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8090 ];
+  networking.firewall.allowedTCPPorts = [ 8090 ];
 }
