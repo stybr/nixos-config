@@ -28,6 +28,12 @@
         difficulty = "normal";
         motd = "rlw-nuc";
       };
+
+      operators.stybr = {
+        uuid = "10d91098-1395-312f-ae97-e6809c843fc5";
+        level = 4;
+        bypassesPlayerLimit = true;
+      };
     };
   };
 
