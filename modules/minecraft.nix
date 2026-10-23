@@ -23,6 +23,7 @@
 
       serverProperties = {
         server-port = 25565;
+        white-list = false;
         online-mode = false;
         max-players = 2;
         difficulty = "normal";
