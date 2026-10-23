@@ -20,7 +20,6 @@
       save = true;
       path = "/tmp/dms-greeter.log";
     };
-    #quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
   };
 
   programs.niri = {
@@ -37,17 +36,6 @@
   };
 
   services.xserver.enable = true;
-
-  services.cockpit = {
-    enable = true;
-    port = 9090;
-    openFirewall = true;
-    settings = {
-      webService = {
-        AllowUnencrypted = true;
-      };
-    };
-  };
 
   programs.appimage = {
     enable = true;
