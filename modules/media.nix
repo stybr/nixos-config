@@ -10,6 +10,19 @@
     openFirewall = true;
   };
 
+  services.navidrome = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      MusicFolder = "/data/music";
+      Port = 4533;
+      Address = "0.0.0.0";
+    };
+
+  };
+
+  users.users.navidrome.extraGroups = [ "media" ];
+
   users.users.jellyfin.extraGroups = [
     "media"
     "render"
@@ -47,6 +60,11 @@
   ];
 
   systemd.services.podman-tidarr = {
+    requires = [ "data-music.mount" ];
+    after = [ "data-music.mount" ];
+  };
+
+  systemd.services.navidrome = {
     requires = [ "data-music.mount" ];
     after = [ "data-music.mount" ];
   };

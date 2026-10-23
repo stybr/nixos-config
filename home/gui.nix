@@ -33,7 +33,7 @@
       blurWallpaperOnOverview = true;
       wallpaperFillMode = "Fill";
       # frameEnabled = true;
-      #
+
       barConfigs = [
         {
           id = "default";
@@ -41,12 +41,22 @@
           enabled = true;
           island = true;
           islandNotch = true;
+          islandHomeLayout = [
+            {
+              id = "workspaces";
+              enabled = true;
+            }
+          ];
           position = 0;
           widgetPadding = 8;
           leftWidgets = [
             # "launcherButton"
-            "dankPomodoroTimer"
-            "workspaceSwitcher"
+            # "dankPomodoroTimer"
+            # "workspaceSwitcher"
+            {
+              id = "network_speed_monitor";
+              compactMode = true;
+            }
             "focusedWindow"
           ];
           centerWidgets = [
@@ -54,9 +64,10 @@
             # "music"
             "clock"
             "weather"
-            "keyboard_layout_name"
+            # "keyboard_layout_name"
           ];
           rightWidgets = [
+            "dankKDEConnect"
             "systemTray"
             "clipboard"
             "cpuUsage"
