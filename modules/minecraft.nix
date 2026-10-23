@@ -48,6 +48,10 @@
           url = "https://cdn.modrinth.com/data/GOHbQGyX/versions/gnY5Flgo/GSit-3.7.0.jar";
           sha512 = "7813fe99d2fde47e3a40538c09b87b88b6101c27fb4f3305e0fd9bf806809c37e4e67c726f96596caca79785cdd7aa8d8ae724b211535775db21e602f57993d5";
         };
+        "plugins/HuskHomes.jar" = pkgs.fetchurl {
+          url = "https://cdn.modrinth.com/data/J6U9o3JG/versions/eXHdkjXf/HuskHomes-Paper-4.11-9ed80cc.jar";
+          sha512 = "6af0a47e25d53b534362c8fd8598772fcbd19d2ba1e66571b054e4c9bde64188f4b1bda9fc44fc69d9fab11220a5add6e5195fbdee0f591e3af8e5d9b939ed7d";
+        };
       };
 
     };
