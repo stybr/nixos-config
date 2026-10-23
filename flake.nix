@@ -127,6 +127,7 @@
               ./modules/intel.nix
               ./modules/media.nix
               ./modules/minecraft.nix
+              ./modules/monitoring.nix
             ];
           };
 
