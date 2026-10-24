@@ -82,6 +82,7 @@
               input = "clan-core";
             };
             roles.default.machines.rlw-nuc = { };
+            roles.default.machines.rlw-center = { };
             roles.default.settings = {
               user = "stybr";
               prompt = true;
@@ -109,17 +110,16 @@
             ];
           };
 
-          # rlw-center = {
-          #   nixpkgs.hostPlatform = "x86_64-linux";
-          #   imports = common ++ [
-          #     ./modules/amd.nix
-          #     ./modules/desktop.nix
-          #     ./modules/kodi.nix
-          #     ./modules/steam.nix
-          #     ./modules/gaming.nix
-          #     ./modules/retroarch.nix
-          #   ];
-          # };
+          rlw-center = {
+            nixpkgs.hostPlatform = "x86_64-linux";
+            imports = common ++ [
+              ./modules/amd.nix
+              ./modules/desktop.nix
+              ./modules/kodi.nix
+              ./modules/gaming.nix
+              ./modules/retroarch.nix
+            ];
+          };
 
           rlw-nuc = {
             nixpkgs.hostPlatform = "x86_64-linux";
