@@ -10,4 +10,9 @@
 
   services.openssh.settings.KbdInteractiveAuthentication = false;
 
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "stybr";
+  };
+
 }
