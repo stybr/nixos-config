@@ -2,6 +2,9 @@
   "machines": {
     "rlw-nuc": {
       "installedAt": 1792260938
+    },
+    "rlw-center": {
+      "installedAt": 1792884748
     }
   }
 }
