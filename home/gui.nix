@@ -103,6 +103,7 @@
           "zen-twilight"
           "dev.duxlabs.files"
           "heroic"
+          "org.prismlauncher.PrismLauncher"
         ];
       };
     };
