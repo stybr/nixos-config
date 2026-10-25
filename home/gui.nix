@@ -29,6 +29,8 @@
     settings = {
       currentThemeName = "dynamic";
       currentThemeCategory = "dynamic";
+      iconThemeDark = "Papirus";
+      iconThemeLight = "Papirus";
       matugenScheme = "scheme-tonal-spot";
       blurWallpaperOnOverview = true;
       wallpaperFillMode = "Fill";
