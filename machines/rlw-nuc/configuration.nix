@@ -11,11 +11,6 @@
 
   zramSwap.enable = true;
 
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-  };
-
   services.openssh.settings.KbdInteractiveAuthentication = false;
 
 }

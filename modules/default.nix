@@ -12,7 +12,7 @@
     ./audio.nix
     ./fonts.nix
     ./users.nix
+    ./tailscale.nix
   ];
 
 }
-
