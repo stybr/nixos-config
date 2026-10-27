@@ -69,6 +69,7 @@
             # "keyboard_layout_name"
           ];
           rightWidgets = [
+            "dankscale"
             "dankKDEConnect"
             "systemTray"
             "clipboard"
@@ -113,6 +114,7 @@
       dankKDEConnect.enable = true;
       dankStickerSearch.enable = true;
       dankGifSearch.enable = true;
+      dankscale.enable = true;
     };
 
     #quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
