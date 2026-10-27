@@ -130,6 +130,8 @@
     enableDynamicTheming = true;
     enableAudioWavelength = true;
     enableCalendarEvents = false;
+
+    managePluginSettings = true;
   };
 
   programs.dank-calendar = {
