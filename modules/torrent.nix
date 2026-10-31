@@ -24,7 +24,7 @@
     serverConfig = {
       Preferences.WebUI = {
         Username = "stybr";
-        Password_PBKDF2 = "@ByteArray(goFFe0Lzqq1s2hkHr1njtA==:iaLpirCE3kQr47TcYkzKO322YPuMgVN247a6J/W/0aKMGc9fVdKrGeG9xZvgKAYri3hDaTaTCsZVDwPOCqTGFw==)";
+        Password_PBKDF2 = "@ByteArray(3Q6brhDN2MmMtVo9hB1yzA==:+h2qIFdEz49yW3BKuVHDAKvyHF5d1vIcBcNMR997hzAmbNmlCypjC5YYK+c16bPXtW/lvSbE51hp78wE3texaw==)";
         AlternativeUIEnabled = true;
         RootFolder = "${pkgs.vuetorrent}/share/vuetorrent";
         # LocalHostAuth = false;
