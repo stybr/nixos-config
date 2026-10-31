@@ -24,8 +24,30 @@
     ];
   };
 
+  fileSystems."/data/games" = {
+    device = "/dev/mapper/data";
+    fsType = "btrfs";
+    options = [
+      "subvol=@games"
+      "noatime"
+      "nofail"
+    ];
+  };
+
+  fileSystems."/data/books" = {
+    device = "/dev/mapper/data";
+    fsType = "btrfs";
+    options = [
+      "subvol=@books"
+      "noatime"
+      "nofail"
+    ];
+  };
+
   systemd.tmpfiles.rules = [
     "d /data/music 2770 root media - -"
+    "d /data/games 2770 root media - -"
+    "d /data/books 2770 root media - -"
   ];
 
 }
