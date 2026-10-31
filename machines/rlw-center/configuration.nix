@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
 
@@ -25,5 +25,18 @@
       "x-systemd.mount-timeout=10s"
     ];
   };
+
+  hardware.uinput.enable = true;
+  users.users.stybr.extraGroups = [
+    "uinput"
+    "input"
+  ];
+
+  environment.systemPackages = [ pkgs.sc-controller ];
+  services.udev.packages = [ pkgs.sc-controller ];
+
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", KERNELS=="*054C:0CE6*", GROUP="input", MODE="0660"
+  '';
 
 }
