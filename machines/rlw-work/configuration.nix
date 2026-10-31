@@ -33,4 +33,15 @@
     "L+ /home/stybr/.ssh/roam_deploy - - - - ${config.clan.core.vars.generators.ssh-roam.files.roam_deploy.path}"
   ];
 
+  fileSystems."/mnt/games" = {
+    device = "rlw-nuc:/data/games";
+    fsType = "nfs";
+    options = [
+      "noauto"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=600"
+      "x-systemd.mount-timeout=10s"
+    ];
+  };
+
 }
