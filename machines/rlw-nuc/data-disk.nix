@@ -50,4 +50,14 @@
     "d /data/books 2770 root media - -"
   ];
 
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      /data/games 192.168.50.59(ro,all_squash,anonuid=65534,anongid=2000,no_subtree_check) 100.98.147.68(rw,all_squash,anonuid=1000,anongid=2000,no_subtree_check)
+    '';
+  };
+
+  systemd.services.nfs-server.unitConfig.RequiresMountsFor = "/data/games";
+  networking.firewall.allowedTCPPorts = [ 2049 ];
+
 }
