@@ -22,7 +22,13 @@
     user = "stybr";
     group = "users";
     serverConfig = {
-      BitTorrent.Session.DefaultSavePath = "/data/games";
+
+      BitTorrent.Session = {
+        DefaultSavePath = "/data/games";
+        TempPathEnabled = true;
+        TempPath = "/data/games/torrent";
+      };
+
       Preferences.WebUI = {
         Username = "stybr";
         Password_PBKDF2 = "@ByteArray(3Q6brhDN2MmMtVo9hB1yzA==:+h2qIFdEz49yW3BKuVHDAKvyHF5d1vIcBcNMR997hzAmbNmlCypjC5YYK+c16bPXtW/lvSbE51hp78wE3texaw==)";
@@ -30,6 +36,7 @@
         RootFolder = "${pkgs.vuetorrent}/share/vuetorrent";
         # LocalHostAuth = false;
       };
+
     };
   };
 
