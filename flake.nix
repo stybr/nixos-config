@@ -98,7 +98,6 @@
             imports = common ++ [
               ./modules/intel.nix
               ./modules/sync.nix
-              ./modules/torrent.nix
               ./modules/android.nix
               ./modules/desktop.nix
               ./modules/virtualisation.nix
@@ -128,6 +127,7 @@
               ./modules/media.nix
               ./modules/minecraft.nix
               ./modules/monitoring.nix
+              ./modules/torrent.nix
             ];
           };
 
