@@ -27,6 +27,27 @@ let
       ]
     );
   };
+
+  games = pkgs.writeShellApplication {
+    name = "games";
+    runtimeInputs = [ pkgs.zenity ];
+    text = ''
+      cd /mnt/games
+      game=$(printf '%s\n' ./*-jc141/*.sh | grep -v '/actions\.sh$' | sed 's|^\./||' \
+        | zenity --list --title=Games --column=Game --width=700 --height=700) || exit 0
+      cd "$(dirname "$game")"
+      exec bash "$(basename "$game")"
+    '';
+  };
+
+  gamesDesktop = pkgs.makeDesktopItem {
+    name = "games";
+    desktopName = "Games";
+    exec = "games";
+    icon = "applications-games";
+    categories = [ "Game" ];
+  };
+
 in
 {
 
@@ -41,6 +62,8 @@ in
     wineWow64Packages.stagingFull
     prismlauncher
     dosbox-x
+    games
+    gamesDesktop
   ];
 
   programs.nix-ld = {
