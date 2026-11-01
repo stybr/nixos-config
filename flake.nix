@@ -128,6 +128,7 @@
               ./modules/minecraft.nix
               ./modules/monitoring.nix
               ./modules/torrent.nix
+              ./modules/calendar.nix
             ];
           };
 

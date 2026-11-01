@@ -105,6 +105,7 @@
           "dev.duxlabs.files"
           "heroic"
           "org.prismlauncher.PrismLauncher"
+          "games"
         ];
       };
     };
