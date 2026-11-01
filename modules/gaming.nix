@@ -56,12 +56,8 @@ in
   services.envfs.enable = true;
   hardware.graphics.enable32Bit = true;
   environment.systemPackages = with pkgs; [
-    heroic
     mangohud
     umu-launcher
-    wineWow64Packages.stagingFull
-    prismlauncher
-    dosbox-x
     games
     gamesDesktop
   ];
@@ -96,5 +92,7 @@ in
     NIX_LD_i686_linux = pkgs.pkgsi686Linux.stdenv.cc.bintools.dynamicLinker;
     NIX_LD_LIBRARY_PATH_i686_linux = "${libs32}/lib:/run/opengl-driver-32/lib";
   };
+
+  boot.kernelParams = [ "rcupdate.rcu_expedited=1" ];
 
 }

@@ -103,7 +103,6 @@
               ./modules/virtualisation.nix
               ./modules/printing.nix
               ./modules/kodi.nix
-              ./modules/gaming.nix
               ./modules/retroarch.nix
               ./modules/php-legacy.nix
             ];

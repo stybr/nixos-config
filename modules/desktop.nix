@@ -62,6 +62,9 @@
   environment.systemPackages = with pkgs; [
     pulseaudio
     xwayland-satellite
+    wineWow64Packages.stagingFull
   ];
+
+  boot.kernelModules = [ "ntsync" ];
 
 }
