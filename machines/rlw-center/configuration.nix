@@ -29,14 +29,14 @@
   hardware.uinput.enable = true;
   users.users.stybr.extraGroups = [
     "uinput"
-    "input"
+    # "input"
   ];
 
   environment.systemPackages = [ pkgs.sc-controller ];
   services.udev.packages = [ pkgs.sc-controller ];
 
   services.udev.extraRules = ''
-    KERNEL=="hidraw*", KERNELS=="*054C:0CE6*", GROUP="input", MODE="0660"
+    KERNEL=="hidraw*", KERNELS=="*054C:0CE6*", GROUP="uinput", MODE="0660"
   '';
 
 }

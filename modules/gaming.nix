@@ -93,6 +93,7 @@ in
     NIX_LD_LIBRARY_PATH_i686_linux = "${libs32}/lib:/run/opengl-driver-32/lib";
   };
 
-  boot.kernelParams = [ "rcupdate.rcu_expedited=1" ];
+  # pridano puvodne kvuli sekani v Black Mesa, vyreseno odstranenim stybra z inputs skupiny, black mesa uz nenacita vsechny inputy a tim se sekani vyresilo
+  # boot.kernelParams = [ "rcupdate.rcu_expedited=1" ];
 
 }
