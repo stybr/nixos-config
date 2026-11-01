@@ -87,6 +87,7 @@ in
       libGL
       openal
       SDL2
+      libunwind
     ];
   };
 
