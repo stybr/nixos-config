@@ -7,11 +7,11 @@
 
 ## Machines
 
-| Machine    | Role            | Status        |
-|------------|-----------------|---------------|
-| rlw-work   | laptop          | running       |
-| rlw-center | HTPC, gaming PC | not installed |
-| rlw-nuc    | server, homelab | not installed |
+| Machine    | Role                                          | Status  |
+|------------|-----------------------------------------------|---------|
+| rlw-work   | main working laptop                           | running |
+| rlw-center | HTPC, gaming PC                               | running |
+| rlw-nuc    | calDAV, Navidrome, qBittorrent and NFS server | running |
 
 ## Layout
 
