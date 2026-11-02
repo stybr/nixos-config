@@ -7,11 +7,11 @@
 
 ## Machines
 
-| Machine    | Role                                          | Status  |
-|------------|-----------------------------------------------|---------|
-| rlw-work   | main working laptop                           | running |
-| rlw-center | HTPC, gaming PC                               | running |
-| rlw-nuc    | calDAV, Navidrome, qBittorrent and NFS server | running |
+| Machine    | Role                                                       | Status  |
+|------------|------------------------------------------------------------|---------|
+| rlw-work   | main working laptop                                        | running |
+| rlw-center | HTPC, gaming PC                                            | running |
+| rlw-nuc    | RustiCal, Navidrome, qBittorrent, NFS and Minecraft server | running |
 
 ## Layout
 
