@@ -65,6 +65,11 @@
     wineWow64Packages.stagingFull
   ];
 
+  hardware.logitech.wireless = {
+    enable = true;
+    enableGraphical = true;
+  };
+
   boot.kernelModules = [ "ntsync" ];
 
 }
