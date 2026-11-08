@@ -46,6 +46,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+
   };
 
   outputs =
@@ -105,6 +107,7 @@
               ./modules/kodi.nix
               ./modules/retroarch.nix
               ./modules/php-legacy.nix
+              ./modules/flatpak.nix
             ];
           };
 
