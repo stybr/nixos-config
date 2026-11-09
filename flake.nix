@@ -107,7 +107,6 @@
               ./modules/kodi.nix
               ./modules/retroarch.nix
               ./modules/php-legacy.nix
-              ./modules/flatpak.nix
             ];
           };
 
@@ -119,6 +118,7 @@
               ./modules/kodi.nix
               ./modules/gaming.nix
               ./modules/retroarch.nix
+              ./modules/flatpak.nix
             ];
           };
 
