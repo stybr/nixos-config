@@ -76,9 +76,13 @@
     psmisc
     pulsemixer
     pyglossary
-    python3
-    python3Packages.matplotlib
-    python3Packages.mutagen
+    (python3.withPackages (
+      ps: with ps; [
+        matplotlib
+        mutagen
+        mypy
+      ]
+    ))
     hunspell
     hunspellDicts.cs_CZ
     ripgrep
