@@ -81,6 +81,7 @@
         matplotlib
         mutagen
         mypy
+        debugpy
       ]
     ))
     ty
