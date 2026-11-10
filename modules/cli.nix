@@ -83,6 +83,8 @@
         mypy
       ]
     ))
+    ty
+    ruff
     hunspell
     hunspellDicts.cs_CZ
     ripgrep
