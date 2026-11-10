@@ -85,6 +85,7 @@
     ))
     ty
     ruff
+    rassumfrassum
     hunspell
     hunspellDicts.cs_CZ
     ripgrep
