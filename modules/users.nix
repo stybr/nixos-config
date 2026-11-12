@@ -13,6 +13,7 @@
       "adbusers"
       "kvm"
       "libvirtd"
+      "input"
     ];
     homeMode = "0711";
     packages = with pkgs; [
