@@ -48,6 +48,10 @@
               id = "workspaces";
               enabled = true;
             }
+            {
+              id = "keyboardLayout";
+              enabled = true;
+            }
           ];
           position = 0;
           widgetPadding = 8;
