@@ -34,7 +34,6 @@
       matugenScheme = "scheme-tonal-spot";
       blurWallpaperOnOverview = true;
       wallpaperFillMode = "Fill";
-      osdKeyboardLayoutEnabled = true;
 
       barConfigs = [
         {
