@@ -12,8 +12,9 @@
   };
 
   services.xserver.xkb = {
-    layout = "us";
-    options = "caps:escape_shifted_capslock";
+    layout = "us,cz";
+    variant = ",qwerty";
+    options = "grp:shifts_toggle,caps:escape_shifted_capslock";
   };
 
 }
