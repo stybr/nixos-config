@@ -50,8 +50,6 @@
 
   services.gvfs.enable = true;
 
-  programs.firefox.enable = true;
-
   programs.localsend.enable = true;
 
   environment.sessionVariables = {

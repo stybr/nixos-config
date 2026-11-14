@@ -170,10 +170,8 @@
     enable = true;
   };
 
-  programs.brave.enable = true;
   programs.brave-origin.enable = true;
   programs.chromium.enable = true;
-  programs.qutebrowser.enable = true;
 
   programs.emacs = {
     enable = true;
@@ -210,7 +208,6 @@
     kid3
     kdePackages.kdenlive
     faugus-launcher
-    upscayl
     tor-browser
     gnucash
     blender
