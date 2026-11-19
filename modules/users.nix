@@ -25,6 +25,7 @@
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs; };
     backupFileExtension = "hm-bak";
+    overwriteBackup = true;
     users = {
       "stybr" = ../home/common.nix;
     };
