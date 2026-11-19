@@ -10,8 +10,17 @@
     '';
   };
 
+  clan.core.vars.generators.games-disk = {
+    files.key = { };
+    runtimeInputs = [ pkgs.coreutils ];
+    script = ''
+      head -c 48 /dev/urandom | base64 -w0 > "$out"/key
+    '';
+  };
+
   environment.etc.crypttab.text = ''
     data UUID=62519efb-0464-4dfd-ad4c-3bcfb993b372 ${config.clan.core.vars.generators.data-disk.files.key.path} luks,discard,nofail
+    games UUID=9b7ce727-537c-4408-8431-d856211e3e34 ${config.clan.core.vars.generators.games-disk.files.key.path} luks,nofail
   '';
 
   fileSystems."/data/music" = {
@@ -39,6 +48,15 @@
     fsType = "btrfs";
     options = [
       "subvol=@books"
+      "noatime"
+      "nofail"
+    ];
+  };
+
+  fileSystems."/data/games-new" = {
+    device = "/dev/mapper/games";
+    fsType = "btrfs";
+    options = [
       "noatime"
       "nofail"
     ];
