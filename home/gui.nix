@@ -31,6 +31,7 @@
       currentThemeCategory = "dynamic";
       iconThemeDark = "Papirus";
       iconThemeLight = "Papirus";
+      matugenSpec = "dms";
       matugenScheme = "scheme-tonal-spot";
       blurWallpaperOnOverview = true;
       wallpaperFillMode = "Fill";
