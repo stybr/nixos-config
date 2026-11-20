@@ -1,7 +1,6 @@
 { pkgs, lib, ... }:
 
 let
-  # 32bitové knihovny pro staré hry (např. Postal 2)
   libs32 = pkgs.buildEnv {
     name = "nix-ld-libs-i686";
     pathsToLink = [ "/lib" ];
@@ -30,7 +29,6 @@ let
 
   gameLibrary = pkgs.callPackage ../pkgs/game-library { };
 
-  # okno launcheru; spouští ho ikona i backend (po skončení hry)
   games = pkgs.writeShellApplication {
     name = "games";
     runtimeInputs = [ pkgs.chromium ];
@@ -124,8 +122,6 @@ in
     NIX_LD_i686_linux = pkgs.pkgsi686Linux.stdenv.cc.bintools.dynamicLinker;
     NIX_LD_LIBRARY_PATH_i686_linux = "${libs32}/lib:/run/opengl-driver-32/lib";
   };
-
-  # home-manager.users.stybr.prog
 
   # pridano puvodne kvuli sekani v Black Mesa, vyreseno odstranenim stybra z inputs skupiny, black mesa uz nenacita vsechny inputy a tim se sekani vyresilo
   # boot.kernelParams = [ "rcupdate.rcu_expedited=1" ];
