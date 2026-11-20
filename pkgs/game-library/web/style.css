@@ -136,6 +136,7 @@ li.selected span + span {
   font-size: 6rem;
   font-weight: bold;
   text-align: center;
+  z-index: 10; /* nad přilepenými nadpisy písmen (z-index: 1) */
 }
 
 #letter.word {

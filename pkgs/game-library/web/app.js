@@ -729,23 +729,37 @@ function pressedActions(pad) {
   return actions;
 }
 
+let focused = false; // false i na začátku: okno se otevírá po hře, ✕ může být ještě držené
+
 function pollGamepads(now) {
   const pressed = new Set();
   for (const pad of navigator.getGamepads()) {
     if (pad) for (const action of pressedActions(pad)) pressed.add(action);
   }
-  // puštěná tlačítka zapomenout
-  for (const action of held.keys()) {
-    if (!pressed.has(action)) held.delete(action);
+
+  if (!document.hasFocus()) {
+    focused = false; // aktivní je jiné okno (hra): ovladač nepatří nám
+  } else if (!focused) {
+    // okno se právě vrátilo do popředí: držená tlačítka ignorovat až do puštění
+    // (✕ z ukončení hry by jinak hru hned spustilo znovu)
+    focused = true;
+    for (const action of pressed) held.set(action, Infinity);
   }
-  for (const action of pressed) {
-    const repeatAt = held.get(action);
-    if (repeatAt === undefined) {                 // právě stisknuto
-      handleAction(action);
-      held.set(action, now + REPEAT_DELAY_MS);
-    } else if (REPEATING.has(action) && now >= repeatAt) { // drženo dost dlouho
-      handleAction(action);
-      held.set(action, now + REPEAT_INTERVAL_MS);
+
+  if (focused) {
+    // puštěná tlačítka zapomenout
+    for (const action of held.keys()) {
+      if (!pressed.has(action)) held.delete(action);
+    }
+    for (const action of pressed) {
+      const repeatAt = held.get(action);
+      if (repeatAt === undefined) {                 // právě stisknuto
+        handleAction(action);
+        held.set(action, now + REPEAT_DELAY_MS);
+      } else if (REPEATING.has(action) && now >= repeatAt) { // drženo dost dlouho
+        handleAction(action);
+        held.set(action, now + REPEAT_INTERVAL_MS);
+      }
     }
   }
   requestAnimationFrame(pollGamepads);

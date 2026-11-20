@@ -28,17 +28,25 @@ let
     );
   };
 
+  gamesUi = pkgs.writeShellApplication {
+    name = "games-ui";
+    runtimeInputs = [ pkgs.chromium ];
+    text = ''
+      exec chromium --app=http://127.0.0.1:8765 --start-fullscreen \
+        --password-store=basic \
+        --user-data-dir="$HOME/.local/share/game-library/chromium"
+    '';
+  };
+
   games = pkgs.writeShellApplication {
     name = "games";
     runtimeInputs = [
       (pkgs.callPackage ../pkgs/game-library { })
-      pkgs.chromium
+      gamesUi
     ];
     text = ''
       game-library-backend &
-      exec chromium --app=http://127.0.0.1:8765 --start-fullscreen \
-        --password-store=basic \
-        --user-data-dir="$HOME/.local/share/game-library/chromium"
+      exec games-ui
     '';
   };
 

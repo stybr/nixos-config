@@ -5,6 +5,7 @@
   python3,
   rsync,
   pciutils,
+  procps,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -37,6 +38,7 @@ stdenvNoCC.mkDerivation {
         lib.makeBinPath [
           rsync
           pciutils
+          procps # pkill: zavření okna launcheru při spuštění hry
         ]
       }
 

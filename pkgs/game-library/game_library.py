@@ -316,6 +316,31 @@ def running_game():
     return None
 
 
+UI_PATTERN = "[g]ame-library/chromium"  # okno launcheru pozná podle --user-data-dir
+
+
+def close_ui():
+    """Zavře okno launcheru, ať hra dostane obrazovku i ovladač."""
+    subprocess.run(["pkill", "-f", UI_PATTERN])
+
+
+def open_ui():
+    """Znovu otevře okno launcheru (jen když backend běží z příkazu games)."""
+    try:
+        subprocess.Popen(["games-ui"], start_new_session=True,
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except FileNotFoundError:  # vývoj na notebooku bez games-ui: nic neotevírat
+        pass
+
+
+def watch_game(proc):
+    """Po spuštění hry zavře launcher, po jejím skončení ho zase otevře."""
+    time.sleep(0.5)  # nejdřív nechat odejít odpověď na /api/play
+    close_ui()
+    proc.wait()
+    open_ui()
+
+
 def start_game(name, script):
     """Spustí skript stažené hry. Vrací None, nebo text chyby."""
     global running
@@ -328,6 +353,7 @@ def start_game(name, script):
         return "another game is already running"
     proc = subprocess.Popen(["bash", script], cwd=game_dir, start_new_session=True)
     running = {"name": name, "script": script, "proc": proc}
+    threading.Thread(target=watch_game, args=(proc,), daemon=True).start()
     return None
 
 
