@@ -118,6 +118,7 @@ def game_detail(name):
         "name": name,
         "state": game_state(name),
         "scripts": game_scripts(game_dir),
+        "mangohud": mangohud_enabled(name),
     }
 
 
@@ -149,6 +150,52 @@ def save_queue():
     tmp = STATE_FILE.with_suffix(".tmp")
     tmp.write_text(json.dumps(names))
     tmp.replace(STATE_FILE)  # atomicky: soubor je vždy celý starý, nebo celý nový
+
+
+# --- nastavení her (MangoHud) ---
+
+SETTINGS_FILE = STATE_FILE.with_name("settings.json")
+settings_lock = threading.Lock()  # požadavky běží ve vláknech: číst-změnit-uložit vždy celé najednou
+
+
+def load_settings():
+    try:
+        settings = json.loads(SETTINGS_FILE.read_text())
+    except (OSError, ValueError):
+        return {}  # zatím nic uloženého
+    return settings if isinstance(settings, dict) else {}
+
+
+def save_settings(settings):
+    SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    tmp = SETTINGS_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(settings, indent=2))
+    tmp.replace(SETTINGS_FILE)  # atomicky, stejně jako fronta
+
+
+def mangohud_enabled(name):
+    return name in load_settings().get("mangohud", [])
+
+
+def store_mangohud(name, enabled):
+    """Zapíše volbu MangoHudu pro hru (bez kontrol, používá i mazání hry)."""
+    with settings_lock:
+        settings = load_settings()
+        names = set(settings.get("mangohud", []))
+        if enabled:
+            names.add(name)
+        else:
+            names.discard(name)
+        settings["mangohud"] = sorted(names)
+        save_settings(settings)
+
+
+def set_mangohud(name, enabled):
+    """Zapne/vypne MangoHud pro staženou hru. Vrací None, nebo text chyby."""
+    if not valid_name(name) or game_state(name) != "installed":
+        return "game is not downloaded"
+    store_mangohud(name, enabled)
+    return None
 
 
 def load_queue():
@@ -351,7 +398,10 @@ def start_game(name, script):
         return "unknown script"
     if running_game():
         return "another game is already running"
-    proc = subprocess.Popen(["bash", script], cwd=game_dir, start_new_session=True)
+    env = os.environ.copy()
+    if mangohud_enabled(name):
+        env["MANGOHUD"] = "1"  # zapne Vulkan vrstvu MangoHudu (DXVK/VKD3D ve Wine)
+    proc = subprocess.Popen(["bash", script], cwd=game_dir, env=env, start_new_session=True)
     running = {"name": name, "script": script, "proc": proc}
     threading.Thread(target=watch_game, args=(proc,), daemon=True).start()
     return None
@@ -386,6 +436,7 @@ def delete_game(name):
         shutil.rmtree(game_dir)
     except OSError as error:
         return f"delete failed: {error}"
+    store_mangohud(name, False)  # smazaná hra si nastavení nenechává
     return None
 
 
@@ -619,6 +670,7 @@ class Handler(BaseHTTPRequestHandler):
             "/api/download/cancel": cancel_download,
             "/api/play": lambda: start_game(name, query.get("script", [""])[0]),
             "/api/delete": lambda: delete_game(name),
+            "/api/mangohud": lambda: set_mangohud(name, query.get("enabled", [""])[0] == "1"),
         }
         if url.path not in actions:
             self.send_error(404)

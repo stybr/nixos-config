@@ -557,6 +557,17 @@ async function playGame(name, script) {
   showMessage(`Running: ${name}`);
 }
 
+async function setMangohud(name, enabled) {
+  const params = new URLSearchParams({ name, enabled: enabled ? "1" : "0" });
+  const response = await fetch(`/api/mangohud?${params}`, { method: "POST" });
+  if (!response.ok) {
+    const { error } = await response.json();
+    showMessage(`Error: ${error}`);
+    return;
+  }
+  await openDetail(name, true); // překreslit popisek On/Off, výběr zůstane na přepínači
+}
+
 function confirmDelete(name) {
   document.getElementById("detail-title").textContent = `Delete ${name}?`;
   detailActions = [
@@ -612,6 +623,10 @@ function actionsFor(detail) {
     for (const script of detail.scripts) {
       actions.push({ label: script.label, run: () => playGame(detail.name, script.file) });
     }
+    actions.push({
+      label: `MangoHud: ${detail.mangohud ? "On" : "Off"}`,
+      run: () => setMangohud(detail.name, !detail.mangohud),
+    });
   } else {
     const busy = ACTIVE_STATES.includes(lastDownload?.state);
     const label = busy ? "Add to queue" : detail.state === "partial" ? "Resume download" : "Download";
