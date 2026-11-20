@@ -28,25 +28,16 @@ let
     );
   };
 
-  gamesUi = pkgs.writeShellApplication {
-    name = "games-ui";
+  gameLibrary = pkgs.callPackage ../pkgs/game-library { };
+
+  # okno launcheru; spouští ho ikona i backend (po skončení hry)
+  games = pkgs.writeShellApplication {
+    name = "games";
     runtimeInputs = [ pkgs.chromium ];
     text = ''
       exec chromium --app=http://127.0.0.1:8765 --start-fullscreen \
         --password-store=basic \
         --user-data-dir="$HOME/.local/share/game-library/chromium"
-    '';
-  };
-
-  games = pkgs.writeShellApplication {
-    name = "games";
-    runtimeInputs = [
-      (pkgs.callPackage ../pkgs/game-library { })
-      gamesUi
-    ];
-    text = ''
-      game-library-backend &
-      exec games-ui
     '';
   };
 
@@ -79,6 +70,20 @@ in
   home-manager.users.stybr.programs.dank-material-shell.session.dockPins.dock = lib.mkAfter [
     "games"
   ];
+
+  home-manager.users.stybr.systemd.user.services.game-library = {
+    Unit = {
+      Description = "Game library backend";
+      PartOf = [ "graphical-session.target" ]; # skončí s grafickým sezením
+      After = [ "graphical-session.target" ]; # až když je WAYLAND_DISPLAY a spol.
+    };
+    Service = {
+      ExecStart = lib.getExe gameLibrary;
+      Restart = "on-failure";
+      KillMode = "process"; # při restartu ukončit jen backend, spuštěná hra běží dál
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
 
   services.envfs.enable = true;
   hardware.graphics.enable32Bit = true;

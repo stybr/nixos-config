@@ -9,6 +9,7 @@ import shutil
 import signal
 import socket
 import subprocess
+import sys
 import threading
 import time
 from collections import deque
@@ -372,11 +373,11 @@ def close_ui():
 
 
 def open_ui():
-    """Znovu otevře okno launcheru (jen když backend běží z příkazu games)."""
+    """Znovu otevře okno launcheru (příkaz games z gaming.nix)."""
     try:
-        subprocess.Popen(["games-ui"], start_new_session=True,
+        subprocess.Popen(["games"], start_new_session=True,
                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except FileNotFoundError:  # vývoj na notebooku bez games-ui: nic neotevírat
+    except FileNotFoundError:  # vývoj na notebooku bez příkazu games: nic neotevírat
         pass
 
 
@@ -708,6 +709,9 @@ if __name__ == "__main__":
     load_queue()  # navázat na frontu z minulého běhu
     start_nuc_checker()  # ať je místo na NUCu známé hned při otevření záložky System
     print(f"game-library: http://127.0.0.1:{PORT}")
+    # systemd zastavuje backend signálem SIGTERM; převést na normální ukončení,
+    # ať proběhne finally a rozběhnutý rsync se korektně zastaví (nový backend na něj naváže)
+    signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     try:
         server.serve_forever()
     except KeyboardInterrupt:
