@@ -33,7 +33,7 @@ const SYSTEM_POLL_MS = 2000;
 const HINTS = {
   library: "✕ Select    L1/R1 Tab    L2/R2 Letter",
   downloads: "✕ Select    L1/R1 Tab    L2/R2 Section",
-  detail: "✕ Select    ○ Back",
+  detail: "✕ Select    ○ Back    L2/R2 Page",
   panel: "L1/R1 Tab    ↑↓ Scroll",
 };
 
@@ -653,22 +653,29 @@ async function openDetail(name, keepSelection = false) {
 
 // --- ovládání ---
 
-function handleAction(action) {
+// repeat: akce z držení tlačítka (ne první stisk)
+function handleAction(action, repeat = false) {
+  const last = itemsOf(view).length - 1;
   switch (action) {
     case "up":
       if (view === "library" && TABS[tab].panel) scrollPanel(-1);
+      // na začátku přeskočit na konec, ale jen samostatným stiskem:
+      // při držení se seznam na kraji zastaví a nekrouží dokola
+      else if (selected[view] === 0 && !repeat) select(last);
       else select(selected[view] - 1);
       break;
     case "down":
       if (view === "library" && TABS[tab].panel) scrollPanel(+1);
+      else if (selected[view] === last && !repeat) select(0); // z konce na začátek
       else select(selected[view] + 1);
       break;
     case "pageUp":   select(selected[view] - PAGE_SIZE); break;
     case "pageDown": select(selected[view] + PAGE_SIZE); break;
     case "top":      select(0); break;
     case "bottom":   select(Infinity); break; // select() to ořízne na poslední položku
-    case "prevLetter": if (view === "library") jumpLetter(-1); break;
-    case "nextLetter": if (view === "library") jumpLetter(+1); break;
+    // v detailu nejsou písmena: L2/R2 skáče o stránku
+    case "prevLetter": view === "library" ? jumpLetter(-1) : select(selected[view] - PAGE_SIZE); break;
+    case "nextLetter": view === "library" ? jumpLetter(+1) : select(selected[view] + PAGE_SIZE); break;
     case "prevTab": if (view === "library") switchTab(-1); break;
     case "nextTab": if (view === "library") switchTab(+1); break;
     case "confirm":
@@ -717,7 +724,7 @@ document.addEventListener("keydown", (event) => {
   const action = KEY_ACTIONS[key];
   if (!action) return;
   event.preventDefault();
-  handleAction(action);
+  handleAction(action, event.repeat); // event.repeat = klávesa se drží
 });
 
 // --- ovladač ---
@@ -772,7 +779,7 @@ function pollGamepads(now) {
         handleAction(action);
         held.set(action, now + REPEAT_DELAY_MS);
       } else if (REPEATING.has(action) && now >= repeatAt) { // drženo dost dlouho
-        handleAction(action);
+        handleAction(action, true);
         held.set(action, now + REPEAT_INTERVAL_MS);
       }
     }
