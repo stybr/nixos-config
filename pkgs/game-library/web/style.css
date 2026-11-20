@@ -1,0 +1,260 @@
+:root {
+  /* stejná výška pro hry i nadpisy písmen, posun je pak vždy o celé řádky;
+     v celých pixelech: zlomky (např. 2.8rem = 44.8px) by se zaokrouhlovaly a posun by se rozjížděl */
+  --row-height: 48px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* obrazovka nahoře, lišta stahování pod ní */
+  background: #111;
+  color: #eee;
+  font: 1.5rem system-ui, sans-serif;
+}
+
+main {
+  flex: 1;          /* zabere všechno místo mezi záložkami a lištami dole */
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem; /* mezera pod záložkami, mimo scrollující část (řádky pak sedí na mřížce) */
+}
+
+section {
+  flex: 1;          /* zabere všechno místo v main */
+  min-height: 0;    /* bez toho by flex prvek nešel zmenšit pod výšku obsahu */
+  overflow-y: auto; /* scrolluje se jen tahle část */
+  position: relative; /* offsetTop řádků se počítá od začátku této části */
+  scrollbar-width: none; /* ovládá se ovladačem, posuvník jen překáží */
+  padding: 0 3rem 2rem; /* nahoře 0: přilepený nadpis je úplně nahoře, nic nad ním neprosvítá */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between; /* název vlevo, velikost vpravo */
+  align-items: center;
+  gap: 2rem;
+  box-sizing: border-box; /* výška včetně okraje, ať nadpis s čárou není vyšší */
+  height: var(--row-height);
+  padding: 0 0.8rem;
+}
+
+li span + span {
+  color: #999; /* druhá část řádku (velikost) šedě */
+}
+
+li.selected {
+  background: #2a6;
+  color: #fff;
+  border-radius: 0.4rem;
+}
+
+li.selected span + span {
+  color: #fff;
+}
+
+#download {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: #222;
+}
+
+#download[hidden] {
+  display: none; /* display: flex by jinak přebil atribut hidden */
+}
+
+#download progress {
+  flex: 1;
+  height: 1rem;
+}
+
+#tabs {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem 3rem 0.5rem;
+}
+
+#tabs[hidden] {
+  display: none;
+}
+
+#tabs .tab {
+  color: #888;
+  padding-bottom: 0.3rem;
+  border-bottom: 3px solid transparent;
+}
+
+#tabs .tab.active {
+  color: #fff;
+  border-bottom-color: #2a6;
+}
+
+#tabs .shoulder {
+  color: #777;
+  font-size: 1rem;
+  border: 1px solid #555;
+  border-radius: 0.3rem;
+  padding: 0 0.4rem;
+}
+
+#empty {
+  color: #888;
+}
+
+#hints {
+  padding: 0.8rem 3rem;
+  background: #1a1a1a;
+  color: #aaa;
+  font-size: 1.1rem;
+  white-space: pre; /* zachovat mezery mezi nápovědami */
+}
+
+#letter {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* přesně doprostřed obrazovky */
+  min-width: 8rem;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 6rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+#letter.word {
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+#letter[hidden] {
+  display: none;
+}
+
+#games li.header {
+  position: sticky; /* nadpis aktuálního písmene zůstává nahoře při scrollování */
+  top: 0;
+  z-index: 1;
+  background: #111;
+  color: #2a6;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase; /* skupiny ve stahování: DOWNLOADING, QUEUE… */
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #333;
+}
+
+#library {
+  flex: none;         /* výšku na celé řádky nastavuje JS (fitLibrary) */
+  padding-bottom: 0;  /* jinak by v odsazení prosvítal useknutý řádek */
+}
+
+#games {
+  margin: 0; /* řádky začínají přesně nahoře, na mřížce po --row-height */
+  padding-bottom: var(--row-height); /* rezerva, aby šlo i na konci zarovnat na celé řádky */
+}
+
+/* --- záložka System --- */
+
+#system {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* tři stejně široké sloupce podle témat */
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+#system[hidden] {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  #system {
+    grid-template-columns: 1fr; /* úzká obrazovka: sloupce pod sebe */
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.column > .card:last-child {
+  flex: 1; /* poslední karta vyplní sloupec, všechny sloupce končí ve stejné výšce */
+}
+
+.card {
+  background: #1a1a1a;
+  border-radius: 0.6rem;
+  padding: 1rem 1.2rem;
+}
+
+.card h2 {
+  margin: 0 0 0.6rem;
+  color: #2a6;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card h3 {
+  margin: 0.8rem 0 0.2rem;
+  color: #ccc;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.card h2 + h3 {
+  margin-top: 0; /* první podnadpis hned pod nadpisem karty */
+}
+
+.card .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0;
+}
+
+.card .row span:first-child {
+  color: #999;
+  white-space: nowrap;
+}
+
+.card .row span:last-child {
+  text-align: right;
+  overflow-wrap: anywhere; /* dlouhé názvy (CPU, GPU) zalomit, ne přetéct */
+}
+
+.bar {
+  height: 0.6rem;
+  margin: 0.4rem 0 0.6rem;
+  border-radius: 0.3rem;
+  background: #333;
+  overflow: hidden;
+}
+
+.bar .fill {
+  height: 100%;
+  background: #2a6;
+}
+
+.bar .fill.warn {
+  background: #c83;
+}

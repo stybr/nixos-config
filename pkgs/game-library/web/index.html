@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Game Library</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav id="tabs"></nav>
+  <main id="screens">
+    <section id="library">
+      <ul id="games"></ul>
+      <p id="empty" hidden></p>
+      <div id="system" hidden></div>
+    </section>
+    <section id="detail" hidden>
+      <h1 id="detail-title"></h1>
+      <ul id="actions"></ul>
+      <p id="message"></p>
+    </section>
+  </main>
+  <footer id="download" hidden>
+    <span id="download-text"></span>
+    <progress id="download-progress" max="100"></progress>
+  </footer>
+  <footer id="hints"></footer>
+  <div id="letter" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
