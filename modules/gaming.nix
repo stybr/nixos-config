@@ -37,6 +37,7 @@ let
     text = ''
       game-library-backend &
       exec chromium --app=http://127.0.0.1:8765 --start-fullscreen \
+        --password-store=basic \
         --user-data-dir="$HOME/.local/share/game-library/chromium"
     '';
   };
