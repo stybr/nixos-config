@@ -34,10 +34,9 @@
   };
 
   fileSystems."/data/games" = {
-    device = "/dev/mapper/data";
+    device = "/dev/mapper/games";
     fsType = "btrfs";
     options = [
-      "subvol=@games"
       "noatime"
       "nofail"
     ];
@@ -48,15 +47,6 @@
     fsType = "btrfs";
     options = [
       "subvol=@books"
-      "noatime"
-      "nofail"
-    ];
-  };
-
-  fileSystems."/data/games-new" = {
-    device = "/dev/mapper/games";
-    fsType = "btrfs";
-    options = [
       "noatime"
       "nofail"
     ];
