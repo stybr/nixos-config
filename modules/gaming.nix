@@ -66,6 +66,11 @@ in
 
   programs.gamescope.enable = true;
   programs.gamemode.enable = true;
+
+  home-manager.users.stybr.programs.dank-material-shell.session.dockPins.dock = lib.mkAfter [
+    "games"
+  ];
+
   services.envfs.enable = true;
   hardware.graphics.enable32Bit = true;
   environment.systemPackages = with pkgs; [
