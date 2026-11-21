@@ -6,6 +6,7 @@
   rsync,
   pciutils,
   procps,
+  mangohud,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -39,6 +40,7 @@ stdenvNoCC.mkDerivation {
           rsync
           pciutils
           procps # pkill: zavření okna launcheru při spuštění hry
+          mangohud # spouštění her s MangoHudem
         ]
       }
 

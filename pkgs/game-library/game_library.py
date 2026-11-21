@@ -431,10 +431,12 @@ def start_game(name, script):
         return "unknown script"
     if running_game():
         return "another game is already running"
-    env = os.environ.copy()
+    cmd = ["bash", script]
     if mangohud_enabled(name):
-        env["MANGOHUD"] = "1"  # zapne Vulkan vrstvu MangoHudu (DXVK/VKD3D ve Wine)
-    proc = subprocess.Popen(["bash", script], cwd=game_dir, env=env, start_new_session=True)
+        # wrapper mangohud: MANGOHUD=1 pro Vulkan (DXVK/VKD3D) + LD_PRELOAD pro OpenGL
+        # (nativní hry, WineD3D); procesy bez grafiky (bash, dwarfs) knihovna nechá být
+        cmd = ["mangohud", *cmd]
+    proc = subprocess.Popen(cmd, cwd=game_dir, start_new_session=True)
     running = {"name": name, "script": script, "proc": proc}
     threading.Thread(target=watch_game, args=(proc,), daemon=True).start()
     return None
