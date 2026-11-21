@@ -72,9 +72,6 @@ li.selected span + span {
   text-align: center;
 }
 
-/* symboly mají v písmu různou velikost: srovnat na stejnou vizuální velikost jako ☁ */
-#games li .icon.installed { font-size: 0.75em; }
-
 /* název zabere volné místo, velikost a značka otestování jsou vpravo */
 #games li .icon + span {
   flex: 1;
@@ -292,4 +289,18 @@ li.selected .status {
 
 .bar .fill.warn {
   background: #c83;
+}
+
+/* SVG ikony (stav hry vlevo, otestování vpravo): stejná velikost a tloušťka čar všude */
+li .icon,
+li .status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+li .icon svg,
+li .status svg {
+  width: 1.1em;
+  height: 1.1em;
 }

@@ -1,8 +1,25 @@
-const STATE_ICONS = { installed: "●", partial: "⇣", remote: "☁" };
+const STATE_ICONS = { installed: "drive", partial: "download", remote: "cloud" };
 // otestování hry: značka v seznamu (untested bez značky) a popisek v detailu
-const STATUS_ICONS = { works: "✓", issues: "⚠", broken: "✗" };
+const STATUS_ICONS = { works: "check", issues: "warning", broken: "cross" };
 const STATUS_LABELS = { untested: "Untested", works: "Works", issues: "Issues", broken: "Broken" };
 const STATUS_ORDER = ["untested", "works", "issues", "broken"];
+
+// ikony Lucide (https://lucide.dev, licence ISC): obsah SVG 24×24, kreslí se barvou textu
+const ICONS = {
+  cloud: '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  drive: '<path d="M10 16h.01"/><path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><path d="M21.946 12.013H2.054"/><path d="M6 16h.01"/>',
+  download: '<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',
+  pause: '<rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  warning: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  cross: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+};
+
+function svgIcon(name) {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"`
+    + ` stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</svg>`;
+}
 const PAGE_SIZE = 10;
 const POLL_MS = 500;
 const HIDE_DONE_MS = 3000;  // za jak dlouho schovat lištu po dokončení stahování
@@ -63,6 +80,9 @@ function fillList(list, rows) {
         const part = document.createElement("span");
         if (typeof piece === "string") {
           part.textContent = piece;
+        } else if (piece.icon) {
+          part.innerHTML = piece.icon ? svgIcon(piece.icon) : ""; // jen naše pevné SVG, žádný text zvenku
+          part.className = piece.className;
         } else {
           part.textContent = piece.text;
           part.className = piece.className;
@@ -186,15 +206,15 @@ function isDownloading(name) {
 // řádek seznamu: [ikona, název, velikost / průběh / pořadí ve frontě, značka otestování]
 function rowFor(game) {
   // ikona i značka mají vlastní sloupec s pevnou šířkou: názvy, velikosti i značky jsou pod sebou
-  const status = { text: STATUS_ICONS[game.status] ?? "", className: `status ${game.status}` };
-  const icon = (text, kind) => ({ text, className: `icon ${kind}` });
+  const status = { icon: STATUS_ICONS[game.status] ?? "", text: "", className: `status ${game.status}` };
+  const icon = (name, kind) => ({ icon: name, className: `icon ${kind}` });
   const title = titleOf(game.name);
   if (isDownloading(game.name)) {
     const paused = lastDownload.state === "paused";
-    return [icon(paused ? "⏸" : "⇣", paused ? "paused" : "partial"), title, `${lastDownload.percent} %`, status];
+    return [icon(paused ? "pause" : "download", paused ? "paused" : "partial"), title, `${lastDownload.percent} %`, status];
   }
   const queueIndex = downloadQueue.indexOf(game.name);
-  if (queueIndex >= 0) return [icon("⋯", "queued"), title, `Queued ${queueIndex + 1}`, status];
+  if (queueIndex >= 0) return [icon("clock", "queued"), title, `Queued ${queueIndex + 1}`, status];
   return [icon(STATE_ICONS[game.state], game.state), title, formatSize(game.size), status];
 }
 
