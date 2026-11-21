@@ -99,10 +99,11 @@ def find_game_dir(name):
 
 
 def script_label(file):
-    """start.*.sh → "Play", ostatní: czech.sh → "czech", ori.and.the.blind.forest.sh → "ori and the blind forest"."""
+    """Popisek ve výběru skriptu: start.*.sh → "Default", czech.sh → "Czech", td.6.sh → "Td 6"."""
     if file.startswith("start."):
-        return "Play"
-    return file.removesuffix(".sh").replace(".", " ")
+        return "Default"
+    label = file.removesuffix(".sh").replace(".", " ")
+    return label[:1].upper() + label[1:]
 
 
 def game_scripts(game_dir):

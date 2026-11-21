@@ -64,10 +64,18 @@ li.selected span + span {
   color: #fff;
 }
 
-/* značka otestování: hned před velikostí (auto okraj ji odsune doprava) */
+/* název zabere volné místo, velikost a značka otestování jsou vpravo */
+#games li span:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+/* značka otestování: sloupec s pevnou šířkou úplně vpravo, i prázdný */
 li .status {
-  margin-left: auto;
-  margin-right: -1rem; /* blíž k velikosti než běžná mezera 2rem */
+  flex: none;
+  width: 1.2rem;
+  margin-left: -1rem; /* blíž k velikosti než běžná mezera 2rem */
+  text-align: center;
 }
 
 li .status.works { color: #5d8; }

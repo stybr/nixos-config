@@ -19,6 +19,7 @@ let view = "library";                       // aktuální obrazovka: "library" |
 const selected = { library: 0, detail: 0 }; // vybraná položka zvlášť pro každou obrazovku
 let detailName = null;                      // hra otevřená v detailu
 let detailActions = [];                     // položky detailu: { label, run }
+let subMenu = false;                        // detail ukazuje podmenu (skripty, potvrzení smazání): ○ vrací do menu hry
 let pollTimer = null;                       // běžící polling stahování
 let hideTimer = null;                       // naplánované schování lišty stahování
 let letterTimer = null;                     // naplánované schování velkého písmena
@@ -182,20 +183,18 @@ function isDownloading(name) {
   return lastDownload?.name === name && ACTIVE_STATES.includes(lastDownload.state);
 }
 
-// řádek seznamu: [ikona + název, velikost / průběh stahování / pořadí ve frontě]
+// řádek seznamu: [ikona + název, velikost / průběh / pořadí ve frontě, značka otestování]
 function rowFor(game) {
+  // sloupec se značkou má každý řádek (u neotestovaných prázdný), ať jsou značky i velikosti pod sebou
+  const status = { text: STATUS_ICONS[game.status] ?? "", className: `status ${game.status}` };
+  const title = titleOf(game.name);
   if (isDownloading(game.name)) {
     const icon = lastDownload.state === "paused" ? "⏸" : "⇣";
-    return [`${icon} ${titleOf(game.name)}`, `${lastDownload.percent} %`];
+    return [`${icon} ${title}`, `${lastDownload.percent} %`, status];
   }
   const queueIndex = downloadQueue.indexOf(game.name);
-  if (queueIndex >= 0) return [`⋯ ${titleOf(game.name)}`, `Queued ${queueIndex + 1}`];
-  const row = [`${STATE_ICONS[game.state]} ${titleOf(game.name)}`];
-  if (STATUS_ICONS[game.status]) {
-    row.push({ text: STATUS_ICONS[game.status], className: `status ${game.status}` });
-  }
-  row.push(formatSize(game.size));
-  return row;
+  if (queueIndex >= 0) return [`⋯ ${title}`, `Queued ${queueIndex + 1}`, status];
+  return [`${STATE_ICONS[game.state]} ${title}`, formatSize(game.size), status];
 }
 
 // pořadí v záložce Downloads: stahovaná, pak fronta, pak ostatní nedokončené
@@ -605,6 +604,7 @@ async function setStatus(name, status) {
 }
 
 function confirmDelete(name) {
+  subMenu = true;
   document.getElementById("detail-title").textContent = `Delete ${titleOf(name)}?`;
   detailActions = [
     { label: "Cancel", run: () => openDetail(name) },
@@ -656,8 +656,12 @@ function actionsFor(detail) {
 
   const actions = [];
   if (detail.state === "installed") {
-    for (const script of detail.scripts) {
-      actions.push({ label: script.label, run: () => playGame(detail.name, script.file) });
+    // jeden skript: Play spustí hru rovnou; víc skriptů: Play otevře jejich výběr (šipka to napoví)
+    const scripts = detail.scripts;
+    if (scripts.length === 1) {
+      actions.push({ label: "Play", run: () => playGame(detail.name, scripts[0].file) });
+    } else if (scripts.length > 1) {
+      actions.push({ label: ["Play", `${scripts.length} options ›`], run: () => openScripts(detail) });
     }
     actions.push({
       label: `MangoHud: ${detail.mangohud ? "On" : "Off"}`,
@@ -680,11 +684,24 @@ function actionsFor(detail) {
   return actions;
 }
 
+// výběr skriptu (kolekce, jazykové verze, módy); ○ vrátí do menu hry
+function openScripts(detail) {
+  subMenu = true;
+  detailActions = detail.scripts.map((script) => ({
+    label: script.label,
+    run: () => playGame(detail.name, script.file),
+  }));
+  fillList(lists.detail, detailActions.map((action) => action.label));
+  selected.detail = 0;
+  select(0);
+}
+
 // keepSelection: po obnovení (např. Move up) zůstat na stejné položce menu
 async function openDetail(name, keepSelection = false) {
   const previousIndex = selected.detail;
   const detail = await fetchJson(`/api/game?name=${encodeURIComponent(name)}`);
   detailName = name;
+  subMenu = false;
   showMessage("");
   document.getElementById("detail-title").textContent = titleOf(detail.name);
   detailActions = actionsFor(detail);
@@ -729,7 +746,7 @@ function handleAction(action, repeat = false) {
       }
       break;
     case "back":
-      if (view === "detail") showView("library");
+      if (view === "detail") subMenu ? openDetail(detailName) : showView("library");
       break;
   }
 }
