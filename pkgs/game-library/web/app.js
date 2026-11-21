@@ -1,4 +1,8 @@
 const STATE_ICONS = { installed: "✔", partial: "⇣", remote: "☁" };
+// otestování hry: značka v seznamu (untested bez značky) a popisek v detailu
+const STATUS_ICONS = { works: "✓", issues: "⚠", broken: "✗" };
+const STATUS_LABELS = { untested: "Untested", works: "Works", issues: "Issues", broken: "Broken" };
+const STATUS_ORDER = ["untested", "works", "issues", "broken"];
 const PAGE_SIZE = 10;
 const POLL_MS = 500;
 const HIDE_DONE_MS = 3000;  // za jak dlouho schovat lištu po dokončení stahování
@@ -53,9 +57,15 @@ function fillList(list, rows) {
   list.replaceChildren(
     ...rows.map((row) => {
       const item = document.createElement("li");
-      for (const text of [row].flat()) {
+      // část řádku: text, nebo {text, className} pro obarvenou značku
+      for (const piece of [row].flat()) {
         const part = document.createElement("span");
-        part.textContent = text;
+        if (typeof piece === "string") {
+          part.textContent = piece;
+        } else {
+          part.textContent = piece.text;
+          part.className = piece.className;
+        }
         item.append(part);
       }
       return item;
@@ -180,7 +190,12 @@ function rowFor(game) {
   }
   const queueIndex = downloadQueue.indexOf(game.name);
   if (queueIndex >= 0) return [`⋯ ${titleOf(game.name)}`, `Queued ${queueIndex + 1}`];
-  return [`${STATE_ICONS[game.state]} ${titleOf(game.name)}`, formatSize(game.size)];
+  const row = [`${STATE_ICONS[game.state]} ${titleOf(game.name)}`];
+  if (STATUS_ICONS[game.status]) {
+    row.push({ text: STATUS_ICONS[game.status], className: `status ${game.status}` });
+  }
+  row.push(formatSize(game.size));
+  return row;
 }
 
 // pořadí v záložce Downloads: stahovaná, pak fronta, pak ostatní nedokončené
@@ -577,6 +592,18 @@ async function setMangohud(name, enabled) {
   await openDetail(name, true); // překreslit popisek On/Off, výběr zůstane na přepínači
 }
 
+async function setStatus(name, status) {
+  const params = new URLSearchParams({ name, status });
+  const response = await fetch(`/api/status?${params}`, { method: "POST" });
+  if (!response.ok) {
+    const { error } = await response.json();
+    showMessage(`Error: ${error}`);
+    return;
+  }
+  await loadLibrary();          // značka v seznamu
+  await openDetail(name, true); // popisek v detailu, výběr zůstane na přepínači
+}
+
 function confirmDelete(name) {
   document.getElementById("detail-title").textContent = `Delete ${titleOf(name)}?`;
   detailActions = [
@@ -641,6 +668,12 @@ function actionsFor(detail) {
     const label = busy ? "Add to queue" : detail.state === "partial" ? "Resume download" : "Download";
     actions.push({ label, run: () => startDownload(detail.name) });
   }
+  // stav jde nastavit i u nestažené hry (třeba „Broken“, ať ji znovu nestahuju)
+  const nextStatus = STATUS_ORDER[(STATUS_ORDER.indexOf(detail.status) + 1) % STATUS_ORDER.length];
+  actions.push({
+    label: `Status: ${STATUS_LABELS[detail.status]}`,
+    run: () => setStatus(detail.name, nextStatus),
+  });
   if (detail.state !== "remote") {
     actions.push({ label: "Delete", run: () => confirmDelete(detail.name) });
   }

@@ -75,8 +75,9 @@ def list_games():
     # velikosti paralelně: každý stat přes NFS čeká na síť, takhle se čeká jen jednou
     with ThreadPoolExecutor(max_workers=32) as pool:
         sizes = list(pool.map(game_size, names))
+    settings = load_settings()  # jednou pro celý seznam, ne pro každou hru
     return [
-        {"name": name, "state": game_state(name), "size": size}
+        {"name": name, "state": game_state(name), "size": size, "status": game_status(name, settings)}
         for name, size in zip(names, sizes)
     ]
 
@@ -120,6 +121,7 @@ def game_detail(name):
         "state": game_state(name),
         "scripts": game_scripts(game_dir),
         "mangohud": mangohud_enabled(name),
+        "status": game_status(name),
     }
 
 
@@ -196,6 +198,35 @@ def set_mangohud(name, enabled):
     if not valid_name(name) or game_state(name) != "installed":
         return "game is not downloaded"
     store_mangohud(name, enabled)
+    return None
+
+
+STATUSES = ("untested", "works", "issues", "broken")
+
+
+def game_status(name, settings=None):
+    """Jak je hra otestovaná; nic uloženého = untested."""
+    settings = load_settings() if settings is None else settings
+    statuses = settings.get("status")
+    return statuses.get(name, "untested") if isinstance(statuses, dict) else "untested"
+
+
+def set_status(name, status):
+    """Označí hru (i nestaženou). Při smazání hry se stav nemaže: hodí se i po novém stažení."""
+    if not valid_name(name) or find_game_dir(name) is None:
+        return "game not found"
+    if status not in STATUSES:
+        return "unknown status"
+    with settings_lock:
+        settings = load_settings()
+        statuses = settings.get("status")
+        statuses = statuses if isinstance(statuses, dict) else {}
+        if status == "untested":
+            statuses.pop(name, None)  # výchozí stav se neukládá
+        else:
+            statuses[name] = status
+        settings["status"] = statuses
+        save_settings(settings)
     return None
 
 
@@ -672,6 +703,7 @@ class Handler(BaseHTTPRequestHandler):
             "/api/play": lambda: start_game(name, query.get("script", [""])[0]),
             "/api/delete": lambda: delete_game(name),
             "/api/mangohud": lambda: set_mangohud(name, query.get("enabled", [""])[0] == "1"),
+            "/api/status": lambda: set_status(name, query.get("status", [""])[0]),
         }
         if url.path not in actions:
             self.send_error(404)

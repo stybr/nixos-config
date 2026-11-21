@@ -64,6 +64,20 @@ li.selected span + span {
   color: #fff;
 }
 
+/* značka otestování: hned před velikostí (auto okraj ji odsune doprava) */
+li .status {
+  margin-left: auto;
+  margin-right: -1rem; /* blíž k velikosti než běžná mezera 2rem */
+}
+
+li .status.works { color: #5d8; }
+li .status.issues { color: #fb4; }
+li .status.broken { color: #f66; }
+
+li.selected .status {
+  color: #fff; /* na zeleném výběru by barvy splývaly; tvar značky zůstává */
+}
+
 #download {
   display: flex;
   gap: 1rem;
