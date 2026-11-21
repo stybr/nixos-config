@@ -1,4 +1,4 @@
-const STATE_ICONS = { installed: "✔", partial: "⇣", remote: "☁" };
+const STATE_ICONS = { installed: "▣", partial: "⇣", remote: "☁" };
 // otestování hry: značka v seznamu (untested bez značky) a popisek v detailu
 const STATUS_ICONS = { works: "✓", issues: "⚠", broken: "✗" };
 const STATUS_LABELS = { untested: "Untested", works: "Works", issues: "Issues", broken: "Broken" };
