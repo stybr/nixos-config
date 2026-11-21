@@ -63,11 +63,14 @@ function fillList(list, rows) {
   );
 }
 
+// dvojkové jednotky (1 GiB = 1024³ B), stejně jako df -h a ostatní nástroje v Linuxu
+const KIB = 1024, MIB = KIB ** 2, GIB = KIB ** 3, TIB = KIB ** 4;
+
 function formatSize(bytes) {
   if (bytes == null) return "";
-  if (bytes < 1e9) return `${Math.round(bytes / 1e6)} MB`;
-  if (bytes < 1e12) return `${(bytes / 1e9).toFixed(1)} GB`;
-  return `${(bytes / 1e12).toFixed(2)} TB`;
+  if (bytes < GIB) return `${Math.round(bytes / MIB)} MiB`;
+  if (bytes < TIB) return `${(bytes / GIB).toFixed(1)} GiB`;
+  return `${(bytes / TIB).toFixed(2)} TiB`;
 }
 
 // řádky, které jdou vybrat (nadpisy písmen ne)
