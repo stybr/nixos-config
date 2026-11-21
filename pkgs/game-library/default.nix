@@ -7,6 +7,8 @@
   pciutils,
   procps,
   mangohud,
+  libglvnd,
+  pkgsi686Linux,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -41,6 +43,13 @@ stdenvNoCC.mkDerivation {
           pciutils
           procps # pkill: zavření okna launcheru při spuštění hry
           mangohud # spouštění her s MangoHudem
+        ]
+      } \
+      --set GAME_LIBRARY_GL_PATH ${
+        # libGL.so.1 pro OpenGL HUD MangoHudu (64 i 32 bit), viz start_game
+        lib.makeLibraryPath [
+          libglvnd
+          pkgsi686Linux.libglvnd
         ]
       }
 

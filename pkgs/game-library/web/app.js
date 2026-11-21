@@ -183,18 +183,19 @@ function isDownloading(name) {
   return lastDownload?.name === name && ACTIVE_STATES.includes(lastDownload.state);
 }
 
-// řádek seznamu: [ikona + název, velikost / průběh / pořadí ve frontě, značka otestování]
+// řádek seznamu: [ikona, název, velikost / průběh / pořadí ve frontě, značka otestování]
 function rowFor(game) {
-  // sloupec se značkou má každý řádek (u neotestovaných prázdný), ať jsou značky i velikosti pod sebou
+  // ikona i značka mají vlastní sloupec s pevnou šířkou: názvy, velikosti i značky jsou pod sebou
   const status = { text: STATUS_ICONS[game.status] ?? "", className: `status ${game.status}` };
+  const icon = (text, kind) => ({ text, className: `icon ${kind}` });
   const title = titleOf(game.name);
   if (isDownloading(game.name)) {
-    const icon = lastDownload.state === "paused" ? "⏸" : "⇣";
-    return [`${icon} ${title}`, `${lastDownload.percent} %`, status];
+    const paused = lastDownload.state === "paused";
+    return [icon(paused ? "⏸" : "⇣", paused ? "paused" : "partial"), title, `${lastDownload.percent} %`, status];
   }
   const queueIndex = downloadQueue.indexOf(game.name);
-  if (queueIndex >= 0) return [`⋯ ${title}`, `Queued ${queueIndex + 1}`, status];
-  return [`${STATE_ICONS[game.state]} ${title}`, formatSize(game.size), status];
+  if (queueIndex >= 0) return [icon("⋯", "queued"), title, `Queued ${queueIndex + 1}`, status];
+  return [icon(STATE_ICONS[game.state], game.state), title, formatSize(game.size), status];
 }
 
 // pořadí v záložce Downloads: stahovaná, pak fronta, pak ostatní nedokončené

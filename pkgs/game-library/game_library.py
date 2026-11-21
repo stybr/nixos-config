@@ -396,6 +396,9 @@ def running_game():
     return None
 
 
+# složky s libGL.so.1 (nastavuje default.nix); prázdné při vývoji mimo Nix balík
+GL_PATH = os.environ.get("GAME_LIBRARY_GL_PATH", "")
+
 UI_PATTERN = "[g]ame-library/chromium"  # okno launcheru pozná podle --user-data-dir
 
 
@@ -432,11 +435,18 @@ def start_game(name, script):
     if running_game():
         return "another game is already running"
     cmd = ["bash", script]
+    env = os.environ.copy()
     if mangohud_enabled(name):
         # wrapper mangohud: MANGOHUD=1 pro Vulkan (DXVK/VKD3D) + LD_PRELOAD pro OpenGL
         # (nativní hry, WineD3D); procesy bez grafiky (bash, dwarfs) knihovna nechá být
         cmd = ["mangohud", *cmd]
-    proc = subprocess.Popen(cmd, cwd=game_dir, start_new_session=True)
+        if GL_PATH:
+            # HUD se v OpenGL hrách kreslí přes libGL.so.1 (dlopen podle jména). Hry přes EGL
+            # (i Wine) ji samy nenačtou a na NixOS není ve standardní cestě → MangoHud hlásí
+            # "Failed to initialize OpenGL context" a hra se zasekne. Stejný libglvnd jako systém.
+            old = env.get("LD_LIBRARY_PATH")
+            env["LD_LIBRARY_PATH"] = GL_PATH + (f":{old}" if old else "")
+    proc = subprocess.Popen(cmd, cwd=game_dir, env=env, start_new_session=True)
     running = {"name": name, "script": script, "proc": proc}
     threading.Thread(target=watch_game, args=(proc,), daemon=True).start()
     return None

@@ -64,10 +64,22 @@ li.selected span + span {
   color: #fff;
 }
 
+/* ikona stavu: sloupec s pevnou šířkou, každý symbol na střed (mají v písmu různou šířku) */
+#games li .icon {
+  flex: none;
+  width: 1.6rem;
+  margin-right: -1.2rem; /* k názvu blíž než běžná mezera 2rem */
+  text-align: center;
+}
+
+/* symboly mají v písmu různou velikost: srovnat na stejnou vizuální velikost jako ☁ */
+#games li .icon.installed { font-size: 0.75em; }
+
 /* název zabere volné místo, velikost a značka otestování jsou vpravo */
-#games li span:first-child {
+#games li .icon + span {
   flex: 1;
   min-width: 0;
+  color: inherit; /* název není „druhá část řádku“ (šedá velikost) */
 }
 
 /* značka otestování: sloupec s pevnou šířkou úplně vpravo, i prázdný */
