@@ -114,6 +114,7 @@ in
       openal
       SDL2
       libunwind
+      flac
     ];
   };
 
