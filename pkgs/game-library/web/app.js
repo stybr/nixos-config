@@ -159,6 +159,12 @@ function showView(name) {
   select(selected[name]);
 }
 
+// hezký název ze jména složky: Alien.Isolation-jc141 → Alien Isolation
+// (jméno složky zůstává pro API, zobrazuje se jen tohle)
+function titleOf(name) {
+  return name.replace(/-jc141$/, "").replaceAll(".", " ");
+}
+
 function isDownloading(name) {
   return lastDownload?.name === name && ACTIVE_STATES.includes(lastDownload.state);
 }
@@ -167,11 +173,11 @@ function isDownloading(name) {
 function rowFor(game) {
   if (isDownloading(game.name)) {
     const icon = lastDownload.state === "paused" ? "⏸" : "⇣";
-    return [`${icon} ${game.name}`, `${lastDownload.percent} %`];
+    return [`${icon} ${titleOf(game.name)}`, `${lastDownload.percent} %`];
   }
   const queueIndex = downloadQueue.indexOf(game.name);
-  if (queueIndex >= 0) return [`⋯ ${game.name}`, `Queued ${queueIndex + 1}`];
-  return [`${STATE_ICONS[game.state]} ${game.name}`, formatSize(game.size)];
+  if (queueIndex >= 0) return [`⋯ ${titleOf(game.name)}`, `Queued ${queueIndex + 1}`];
+  return [`${STATE_ICONS[game.state]} ${titleOf(game.name)}`, formatSize(game.size)];
 }
 
 // pořadí v záložce Downloads: stahovaná, pak fronta, pak ostatní nedokončené
@@ -350,7 +356,7 @@ function renderSystem(info) {
     ["Uptime", formatUptime(system.uptime)],
   ]);
   const launcherCard = card("Launcher", [
-    ["Running", launcher.running?.name ?? "nothing"],
+    ["Running", launcher.running ? titleOf(launcher.running.name) : "nothing"],
     ["Version", launcher.version],
   ]);
   const cards = [
@@ -470,12 +476,12 @@ function renderDownload(status) {
   if (status.state === "error") hideTimer = setTimeout(() => renderDownload(null), HIDE_ERROR_MS);
   const queued = downloadQueue.length ? ` · ${downloadQueue.length} queued` : "";
   const texts = {
-    running: `Downloading ${status.name}: ${status.percent} % · ${status.speed} · ${status.eta} left${queued}`,
-    paused: `Paused ${status.name}: ${status.percent} %${queued}`,
-    cancelling: `Cancelling ${status.name}…`,
-    cancelled: `Cancelled: ${status.name}`,
-    done: `Downloaded: ${status.name}`,
-    error: `Error (${status.name}): ${status.error}`,
+    running: `Downloading ${titleOf(status.name)}: ${status.percent} % · ${status.speed} · ${status.eta} left${queued}`,
+    paused: `Paused ${titleOf(status.name)}: ${status.percent} %${queued}`,
+    cancelling: `Cancelling ${titleOf(status.name)}…`,
+    cancelled: `Cancelled: ${titleOf(status.name)}`,
+    done: `Downloaded: ${titleOf(status.name)}`,
+    error: `Error (${titleOf(status.name)}): ${status.error}`,
   };
   document.getElementById("download-text").textContent = texts[status.state];
   document.getElementById("download-progress").value = status.percent ?? 0;
@@ -554,7 +560,7 @@ async function playGame(name, script) {
     showMessage(`Error: ${error}`);
     return;
   }
-  showMessage(`Running: ${name}`);
+  showMessage(`Running: ${titleOf(name)}`);
 }
 
 async function setMangohud(name, enabled) {
@@ -569,7 +575,7 @@ async function setMangohud(name, enabled) {
 }
 
 function confirmDelete(name) {
-  document.getElementById("detail-title").textContent = `Delete ${name}?`;
+  document.getElementById("detail-title").textContent = `Delete ${titleOf(name)}?`;
   detailActions = [
     { label: "Cancel", run: () => openDetail(name) },
     { label: "Yes, delete", run: () => deleteGame(name) },
@@ -644,7 +650,7 @@ async function openDetail(name, keepSelection = false) {
   const detail = await fetchJson(`/api/game?name=${encodeURIComponent(name)}`);
   detailName = name;
   showMessage("");
-  document.getElementById("detail-title").textContent = detail.name;
+  document.getElementById("detail-title").textContent = titleOf(detail.name);
   detailActions = actionsFor(detail);
   fillList(lists.detail, detailActions.map((action) => action.label));
   selected.detail = keepSelection ? Math.min(previousIndex, detailActions.length - 1) : 0;
