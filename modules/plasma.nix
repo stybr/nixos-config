@@ -14,4 +14,10 @@
   };
 
   programs.firefox.enable = true;
+
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
+
 }
