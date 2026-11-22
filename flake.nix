@@ -134,6 +134,14 @@
             ];
           };
 
+          rlw-ziggy = {
+            nixpkgs.hostPlatform = "x86_64-linux";
+            imports = common ++ [
+              ./modules/intel.nix
+              ./modules/plasma.nix
+            ];
+          };
+
         };
       };
 
