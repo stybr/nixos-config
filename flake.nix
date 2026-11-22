@@ -85,9 +85,23 @@
             };
             roles.default.machines.rlw-nuc = { };
             roles.default.machines.rlw-center = { };
+            roles.default.machines.rlw-ziggy = { };
             roles.default.settings = {
               user = "stybr";
               prompt = true;
+            };
+          };
+
+          user-ziggy = {
+            module = {
+              name = "users";
+              input = "clan-core";
+            };
+            roles.default.machines.rlw-ziggy = { };
+            roles.default.settings = {
+              user = "ziggy";
+              prompt = true;
+              groups = [ "networkmanager" ];
             };
           };
 
