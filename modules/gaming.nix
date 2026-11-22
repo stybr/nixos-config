@@ -138,6 +138,7 @@ in
   home-manager.users.stybr.programs.mangohud = {
     enable = true;
     settings = {
+      horizontal = true;
       hud_compact = true;
       gpu_power = true;
       cpu_power = true;
