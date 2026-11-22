@@ -4,7 +4,7 @@
 
   networking.hostName = "rlw-ziggy";
 
-  clan.core.networking.targetHost = "root@192.168.50.2";
+  clan.core.networking.targetHost = "root@192.168.50.232";
 
   services.xserver.xkb = {
     layout = lib.mkForce "cz,us";
