@@ -131,6 +131,22 @@ in
     NIX_LD_LIBRARY_PATH_i686_linux = "${libs32}/lib:/run/opengl-driver-32/lib";
   };
 
+  home-manager.users.stybr.programs.mangohud = {
+    enable = true;
+    settings = {
+      hud_compact = true;
+      gpu_power = true;
+      cpu_power = true;
+      gpu_temp = true;
+      cpu_temp = true;
+      gpu_junction_temp = true;
+      throttling_status = true;
+      vram = true;
+      ram = true;
+      gamepad_battery = true;
+    };
+  };
+
   # pridano puvodne kvuli sekani v Black Mesa, vyreseno odstranenim stybra z inputs skupiny, black mesa uz nenacita vsechny inputy a tim se sekani vyresilo
   # boot.kernelParams = [ "rcupdate.rcu_expedited=1" ];
 
