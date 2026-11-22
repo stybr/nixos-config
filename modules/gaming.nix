@@ -147,7 +147,7 @@ in
       throttling_status = true;
       vram = true;
       ram = true;
-      gamepad_battery = true;
+      device_battery = "gamepad";
     };
   };
 
