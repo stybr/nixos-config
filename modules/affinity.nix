@@ -13,4 +13,4 @@
   environment.systemPackages = [
     inputs.affinity-nix.packages.${pkgs.stdenv.hostPlatform.system}.v3
   ];
-}}
+}
