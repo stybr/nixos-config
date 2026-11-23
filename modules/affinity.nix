@@ -1,16 +1,10 @@
 {
-  inputs,
-  pkgs,
   ...
 }:
 
 {
   nix.settings = {
-    extra-substituters = [ "https://cache.garnix.io" ];
-    extra-trusted-public-keys = [ "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=" ];
+    extra-substituters = [ "https://cache.forall.systems" ];
+    extra-trusted-public-keys = [ "cache.forall.systems:5PmD7QO4MSF8YgyRZtkSGXRDo96H3bybIf2SsQh8ScI=" ];
   };
-
-  environment.systemPackages = [
-    inputs.affinity-nix.packages.${pkgs.stdenv.hostPlatform.system}.affinity-v3
-  ];
 }
