@@ -123,6 +123,7 @@
               ./modules/kodi.nix
               ./modules/retroarch.nix
               ./modules/php-legacy.nix
+              ./modules/affinity.nix
             ];
           };
 

@@ -1,23 +1,20 @@
-{
-  inputs,
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 let
-  affinityPkgs = import inputs.affinity-nix.inputs.nixpkgs {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-    overlays = [ inputs.affinity-nix.overlays.default ];
-  };
+  affinityUrlHandler = pkgs.writeShellScript "affinity-url-handler" ''
+    exec env DESKTOPINTEGRATION=1 "$HOME/AppImages/affinity.appimage" "$@"
+  '';
 in
 {
-  nix.settings = {
-    extra-substituters = [ "https://cache.forall.systems" ];
-    extra-trusted-public-keys = [ "cache.forall.systems:5PmD7QO4MSF8YgyRZtkSGXRDo96H3bybIf2SsQh8ScI=" ];
-  };
-
   environment.systemPackages = [
-    affinityPkgs.affinity-v3
+    (pkgs.makeDesktopItem {
+      name = "affinity-url-handler";
+      desktopName = "Affinity URL Handler";
+      exec = "${affinityUrlHandler} %u";
+      noDisplay = true;
+      mimeTypes = [ "x-scheme-handler/affinity" ];
+    })
   ];
+
+  xdg.mime.defaultApplications."x-scheme-handler/affinity" = "affinity-url-handler.desktop";
 }
