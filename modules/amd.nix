@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   hardware.graphics = {
@@ -10,7 +10,5 @@
 
   services.lact.enable = true;
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.zenergy ];
-  boot.kernelModules = [ "zenergy" ];
 
 }

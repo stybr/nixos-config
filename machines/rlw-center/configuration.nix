@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
 
@@ -51,6 +51,9 @@
   services.udev.extraRules = ''
     KERNEL=="hidraw*", KERNELS=="*054C:0CE6*", GROUP="uinput", MODE="0660"
   '';
+
+  boot.extraModulePackages = [ config.boot.kernelPackages.zenergy ];
+  boot.kernelModules = [ "zenergy" ];
 
   # ignore dualsense so sc-contoller is only one to handle it
   environment.sessionVariables.SDL_GAMECONTROLLER_IGNORE_DEVICES = "0x054c/0x0ce6";
