@@ -6,6 +6,9 @@
 }:
 
 {
+
+  imports = [ ./appimage.nix ];
+
   services.desktopManager.plasma6.enable = true;
 
   services.displayManager.sddm = {
@@ -14,10 +17,5 @@
   };
 
   programs.firefox.enable = true;
-
-  programs.appimage = {
-    enable = true;
-    binfmt = true;
-  };
 
 }

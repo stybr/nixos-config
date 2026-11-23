@@ -8,6 +8,8 @@
 
 {
 
+  imports = [ ./appimage.nix ];
+
   home-manager.users.stybr.imports = [
     ../home/gui.nix
   ];
@@ -36,11 +38,6 @@
   };
 
   services.xserver.enable = true;
-
-  programs.appimage = {
-    enable = true;
-    binfmt = true;
-  };
 
   services.upower = {
     enable = true;
