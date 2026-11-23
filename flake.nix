@@ -48,6 +48,8 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
+    affinity-nix.url = "github:mrshmllow/affinity-nix";
+
   };
 
   outputs =
@@ -121,6 +123,7 @@
               ./modules/kodi.nix
               ./modules/retroarch.nix
               ./modules/php-legacy.nix
+              ./modules/affinity.nix
             ];
           };
 
