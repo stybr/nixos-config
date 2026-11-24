@@ -156,6 +156,7 @@
             imports = common ++ [
               ./modules/intel.nix
               ./modules/plasma.nix
+              ./modules/affinity.nix
             ];
           };
 
