@@ -35,7 +35,9 @@
       matugenScheme = "scheme-tonal-spot";
       blurWallpaperOnOverview = true;
       wallpaperFillMode = "Fill";
-
+      lowerDisplayRefreshRateOnBattery = true;
+      batteryProfileName = "0";
+      acProfileName = "2";
       barConfigs = [
         {
           id = "default";
