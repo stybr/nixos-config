@@ -221,7 +221,9 @@
     heroic
     prismlauncher
     dosbox-x
-    tenacity
+    ardour
+    zrythm
+    lmms
   ];
 
 }
