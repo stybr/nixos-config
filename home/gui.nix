@@ -221,6 +221,7 @@
     heroic
     prismlauncher
     dosbox-x
+    audacity
   ];
 
 }
