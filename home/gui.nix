@@ -102,7 +102,7 @@
     };
 
     session = {
-      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/future-1.webp";
+      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/current/future-1.webp";
       wallpaperCyclingEnabled = true;
       wallpaperCyclingFolderPath = "${config.home.homeDirectory}/Pictures/wallpapers/current";
       wallpaperCyclingRecursive = true;
