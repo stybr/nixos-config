@@ -103,6 +103,12 @@
 
     session = {
       wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/future-1.webp";
+      wallpaperCyclingEnabled = true;
+      wallpaperCyclingFolderPath = "${config.home.homeDirectory}/Pictures/wallpapers/current";
+      wallpaperCyclingRecursive = true;
+      wallpaperCyclingRandom = true;
+      wallpaperCyclingMode = "interval";
+      wallpaperCyclingInterval = 300;
       weatherLocation = "Pilsen, CZ";
       weatherCoordinates = "49.7475,13.3776";
       dockPins = {
