@@ -107,6 +107,59 @@
             };
           };
 
+          syncthing = {
+
+            module = {
+              name = "syncthing";
+              input = "clan-core";
+            };
+
+            roles.peer.machines.rlw-work.settings.folders.wallpapers.type = "sendonly";
+            roles.peer.machines.rlw-center.settings.folders.wallpapers.type = "receiveonly";
+
+            roles.peer.settings = {
+              extraDevices.graphene.id = "SUGMYPW-TQJ35UI-PW6USNA-XETKLUD-ZU6FYBT-L5OVV55-LJIIT4I-HERDPAB";
+              folders = {
+                wallpapers = {
+                  path = "/home/stybr/Pictures/wallpapers/current";
+                  devices = [
+                    "rlw-work"
+                    "rlw-center"
+                  ];
+                };
+                roam = {
+                  path = "/home/stybr/Documents/roam";
+                  devices = [
+                    "rlw-work"
+                    "graphene"
+                  ];
+                  type = "sendonly";
+                };
+                slob = {
+                  path = "/home/stybr/Documents/slob";
+                  devices = [
+                    "rlw-work"
+                    "graphene"
+                  ];
+                  type = "sendonly";
+                };
+                epub = {
+                  path = "/home/stybr/Documents/epub";
+                  devices = [
+                    "rlw-work"
+                    "graphene"
+                  ];
+                  type = "sendonly";
+                };
+              };
+            };
+
+            roles.peer.extraModules = [
+              { services.syncthing.user = "stybr"; }
+            ];
+
+          };
+
         };
 
         machines = {
@@ -115,7 +168,6 @@
             nixpkgs.hostPlatform = "x86_64-linux";
             imports = common ++ [
               ./modules/intel.nix
-              ./modules/sync.nix
               ./modules/android.nix
               ./modules/desktop.nix
               ./modules/virtualisation.nix
