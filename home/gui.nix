@@ -221,7 +221,7 @@
     heroic
     prismlauncher
     dosbox-x
-    audacity
+    tenacity
   ];
 
 }
