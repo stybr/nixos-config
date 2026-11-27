@@ -102,7 +102,7 @@
     };
 
     session = {
-      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/Future-2016-Lollapalooza-James_Richards_IV-2.jpg";
+      wallpaperPath = "${config.home.homeDirectory}/Pictures/wallpapers/hip-hop/future-1.webp";
       weatherLocation = "Pilsen, CZ";
       weatherCoordinates = "49.7475,13.3776";
       dockPins = {
