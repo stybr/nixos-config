@@ -118,7 +118,7 @@
             roles.peer.machines.rlw-center.settings.folders.wallpapers.type = "receiveonly";
 
             roles.peer.settings = {
-              extraDevices.graphene.id = "SUGMYPW-TQJ35UI-PW6USNA-XETKLUD-ZU6FYBT-L5OVV55-LJIIT4I-HERDPAB";
+              extraDevices.graphene.id = "QE7OQJH-HHGSHH4-7HBN4AC-UQQOVOZ-KDNA2BN-JRT7WMY-6CFRGYU-SAYCRQA";
               folders = {
                 wallpapers = {
                   path = "/home/stybr/Pictures/wallpapers/current";
